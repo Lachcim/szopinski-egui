@@ -1,9 +1,12 @@
 #ifndef CALENDAR_HPP
 #define CALENDAR_HPP
 
-#include <ui_calendar.h>
+#include <ui_eventeditor.h>
 #include <QWidget>
 #include <QVector>
+#include <QDialog>
+#include <QDate>
+#include <QMainWindow>
 
 class Calendar : public QMainWindow {
     Q_OBJECT
@@ -18,13 +21,27 @@ class Calendar : public QMainWindow {
             QString time;
             QString description;
         };
+        class EventEditor;
 
-        Ui::Calendar ui;
         QVector<Event> events;
+
+    public slots:
+        void editEvent(const QDate& date);
 
     signals:
         void eventAdded(QDate date);
         void eventRemoved(QDate date);
+};
+
+class Calendar::EventEditor : public QDialog {
+    Q_OBJECT
+
+    public:
+        explicit EventEditor(QWidget* parent, QVector<Event>& events, const QDate& date);
+
+    private:
+        Ui::EventEditor ui;
+        QVector<Event>& events;
 };
 
 #endif

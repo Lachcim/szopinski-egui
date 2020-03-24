@@ -11,4 +11,5 @@ OBJECTS_DIR=obj
 # Input
 SOURCES += main.cpp calendar.cpp eventcalendar.cpp
 HEADERS += calendar.h eventcalendar.h
+FORMS += eventeditor.ui
 QT += widgets

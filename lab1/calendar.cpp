@@ -1,4 +1,7 @@
 #include <calendar.h>
+#include <eventcalendar.h>
+#include <QDialog>
+#include <QWidget>
 #include <QFile>
 #include <QTextStream>
 
@@ -15,6 +18,7 @@ Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
 
     QObject::connect(this, &Calendar::eventAdded, mainCalendar, &EventCalendarWidget::addEvent);
     QObject::connect(this, &Calendar::eventRemoved, mainCalendar, &EventCalendarWidget::removeEvent);
+    QObject::connect(mainCalendar, &EventCalendarWidget::clicked, this, &Calendar::editEvent);
 }
 
 void Calendar::readData() {
@@ -40,4 +44,15 @@ void Calendar::readData() {
     }
 
     file.close();
+}
+
+void Calendar::editEvent(const QDate& date) {
+    EventEditor editor(this, events, date);
+    editor.show();
+}
+
+Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents, const QDate& date) : QDialog(parent), events(parentEvents)
+{
+    ui.setupUi(this);
+    setWindowTitle(date.toString("yyyy-MM-dd"));
 }
