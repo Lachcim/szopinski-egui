@@ -1,12 +1,11 @@
-#include <qapplication.h>
-#include <qpushbutton.h>
+#include <calendar.h>
+#include <QApplication>
 
 int main(int argc, char** argv) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    QPushButton hello("Hello world!", 0);
-    hello.resize(100, 30);
-    hello.show();
+    Calendar calendar;
+    calendar.show();
 
-    return a.exec();
+    return app.exec();
 }

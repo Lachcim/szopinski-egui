@@ -9,5 +9,7 @@ DESTDIR = bin
 OBJECTS_DIR=obj
 
 # Input
-SOURCES += main.cpp
+SOURCES += main.cpp calendar.cpp
+HEADERS += calendar.h ui_calendar.h
+FORMS += calendar.ui
 QT += widgets

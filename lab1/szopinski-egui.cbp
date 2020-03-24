@@ -35,6 +35,9 @@
 		<ExtraCommands>
 			<Add before="qmake" />
 		</ExtraCommands>
+		<Unit filename="calendar.cpp" />
+		<Unit filename="calendar.h" />
+		<Unit filename="calendar.ui" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

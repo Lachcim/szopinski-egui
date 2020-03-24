@@ -3,6 +3,8 @@ Makefile
 *.layout
 bin
 obj
+moc_*
+ui_*
 
 # Prerequisites
 *.d
