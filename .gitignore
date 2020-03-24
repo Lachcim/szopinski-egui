@@ -5,6 +5,7 @@ bin
 obj
 moc_*
 ui_*
+calendar.txt
 
 # Prerequisites
 *.d
