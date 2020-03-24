@@ -40,7 +40,15 @@ class Calendar::EventEditor : public QDialog {
         explicit EventEditor(QWidget* parent, QVector<Event>& events, const QDate& date);
 
     private:
+        QTableWidget* table;
+
         QVector<Event>& events;
+        QVector<Event> localEvents;
+        QVector<int> localEventsIndices;
+
+    public slots:
+        void populateList();
+        void saveChanges();
 };
 
 #endif
