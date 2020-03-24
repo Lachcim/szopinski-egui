@@ -24,7 +24,7 @@ class Calendar : public QMainWindow {
 
     signals:
         void eventAdded(QDate date);
-        void dateCleared(QDate date);
+        void eventRemoved(QDate date);
 };
 
 #endif

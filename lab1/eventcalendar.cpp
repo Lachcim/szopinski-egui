@@ -17,5 +17,5 @@ void EventCalendarWidget::addEvent(const QDate& date) {
 }
 
 void EventCalendarWidget::removeEvent(const QDate& date) {
-    eventDates -= date;
+    eventDates.removeOne(date);
 }

@@ -2,7 +2,7 @@
 #define EVENTCALENDAR_H
 
 #include <QCalendarWidget>
-#include <QSet>
+#include <QVector>
 
 class EventCalendarWidget : public QCalendarWidget {
     Q_OBJECT
@@ -14,7 +14,7 @@ class EventCalendarWidget : public QCalendarWidget {
         void paintCell(QPainter* painter, const QRect& rect, const QDate& date) const;
 
     private:
-        QSet<QDate> eventDates;
+        QVector<QDate> eventDates;
 
     public slots:
         void addEvent(const QDate&);

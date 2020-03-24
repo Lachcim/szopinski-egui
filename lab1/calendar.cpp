@@ -9,7 +9,7 @@ Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
     EventCalendarWidget* mainCalendar = findChild<EventCalendarWidget*>("mainCalendar");
 
     QObject::connect(this, &Calendar::eventAdded, mainCalendar, &EventCalendarWidget::addEvent);
-    QObject::connect(this, &Calendar::dateCleared, mainCalendar, &EventCalendarWidget::removeEvent);
+    QObject::connect(this, &Calendar::eventRemoved, mainCalendar, &EventCalendarWidget::removeEvent);
 }
 
 void Calendar::readData() {
