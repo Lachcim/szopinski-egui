@@ -39,7 +39,7 @@
 		<Unit filename="calendar.h" />
 		<Unit filename="eventcalendar.cpp" />
 		<Unit filename="eventcalendar.h" />
-		<Unit filename="eventeditor.ui" />
+		<Unit filename="eventeditor.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
