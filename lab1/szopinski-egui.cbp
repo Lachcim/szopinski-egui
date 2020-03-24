@@ -38,6 +38,8 @@
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
 		<Unit filename="calendar.ui" />
+		<Unit filename="eventcalendar.cpp" />
+		<Unit filename="eventcalendar.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
