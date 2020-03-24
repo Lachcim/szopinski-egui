@@ -1,7 +1,5 @@
 #include <calendar.h>
 #include <eventcalendar.h>
-#include <QDialog>
-#include <QWidget>
 #include <QFile>
 #include <QTextStream>
 
@@ -48,11 +46,5 @@ void Calendar::readData() {
 
 void Calendar::editEvent(const QDate& date) {
     EventEditor editor(this, events, date);
-    editor.show();
-}
-
-Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents, const QDate& date) : QDialog(parent), events(parentEvents)
-{
-    ui.setupUi(this);
-    setWindowTitle(date.toString("yyyy-MM-dd"));
+    editor.exec();
 }

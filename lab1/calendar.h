@@ -40,7 +40,6 @@ class Calendar::EventEditor : public QDialog {
         explicit EventEditor(QWidget* parent, QVector<Event>& events, const QDate& date);
 
     private:
-        Ui::EventEditor ui;
         QVector<Event>& events;
 };
 
