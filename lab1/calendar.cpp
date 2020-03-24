@@ -4,9 +4,14 @@
 
 Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
 {
-    ui.setupUi(this);
+    setWindowTitle("Calendar by Szopi\305\204ski");
+    setMinimumSize(QSize(480, 360));
+    resize(800, 600);
 
-    EventCalendarWidget* mainCalendar = findChild<EventCalendarWidget*>("mainCalendar");
+    EventCalendarWidget* mainCalendar = new EventCalendarWidget(this);
+    mainCalendar->setFirstDayOfWeek(Qt::Monday);
+    mainCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+    setCentralWidget(mainCalendar);
 
     QObject::connect(this, &Calendar::eventAdded, mainCalendar, &EventCalendarWidget::addEvent);
     QObject::connect(this, &Calendar::eventRemoved, mainCalendar, &EventCalendarWidget::removeEvent);
