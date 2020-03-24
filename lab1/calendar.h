@@ -21,6 +21,10 @@ class Calendar : public QMainWindow {
 
         Ui::Calendar ui;
         QVector<Event> events;
+
+    signals:
+        void eventAdded(QDate date);
+        void dateCleared(QDate date);
 };
 
 #endif

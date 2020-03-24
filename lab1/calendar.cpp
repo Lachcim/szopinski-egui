@@ -5,6 +5,11 @@
 Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    EventCalendarWidget* mainCalendar = findChild<EventCalendarWidget*>("mainCalendar");
+
+    QObject::connect(this, &Calendar::eventAdded, mainCalendar, &EventCalendarWidget::addEvent);
+    QObject::connect(this, &Calendar::dateCleared, mainCalendar, &EventCalendarWidget::removeEvent);
 }
 
 void Calendar::readData() {
@@ -26,7 +31,7 @@ void Calendar::readData() {
         event.description = description;
 
         events += event;
-        findChild<EventCalendarWidget*>("mainCalendar")->addEvent(event.date);
+        emit eventAdded(event.date);
     }
 
     file.close();
