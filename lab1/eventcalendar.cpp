@@ -1,10 +1,6 @@
 #include <eventcalendar.h>
 #include <QPainter>
 
-EventCalendarWidget::EventCalendarWidget(QWidget* parent) : QCalendarWidget(parent) {
-
-}
-
 void EventCalendarWidget::paintCell(QPainter* painter, const QRect& rect, const QDate& date) const {
     QCalendarWidget::paintCell(painter, rect, date);
 

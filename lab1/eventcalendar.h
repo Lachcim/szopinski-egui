@@ -8,7 +8,7 @@ class EventCalendarWidget : public QCalendarWidget {
     Q_OBJECT
 
     public:
-        EventCalendarWidget(QWidget* parent = nullptr);
+        EventCalendarWidget(QWidget* parent = nullptr) : QCalendarWidget(parent) {};
 
     protected:
         void paintCell(QPainter* painter, const QRect& rect, const QDate& date) const;
