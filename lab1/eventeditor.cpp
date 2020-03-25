@@ -1,6 +1,8 @@
 #include <calendar.h>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents, const QDate& date) : QDialog(parent), events(parentEvents)
 {
@@ -75,6 +77,7 @@ void Calendar::EventEditor::populateList() {
         QPushButton* deleteButton = new QPushButton(this);
         deleteButton->setText("Delete");
 
+        QObject::connect(editButton, &QPushButton::clicked, [=] { editEvent(it - localEvents.cbegin()); });
         QObject::connect(deleteButton, &QPushButton::clicked, [=] { deleteEvent(it - localEvents.cbegin()); });
 
         buttonLayout->addWidget(editButton);
@@ -111,6 +114,11 @@ void Calendar::EventEditor::saveChanges() {
     close();
 }
 
+void Calendar::EventEditor::editEvent(int index) {
+    EntryEditor editor(this, localEvents[index]);
+
+    editor.exec();
+}
 void Calendar::EventEditor::deleteEvent(int index) {
     localEvents[index].deleted = true;
     populateList();

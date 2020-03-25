@@ -37,6 +37,7 @@
 		</ExtraCommands>
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
+		<Unit filename="entryeditor.cpp" />
 		<Unit filename="eventcalendar.cpp" />
 		<Unit filename="eventcalendar.h" />
 		<Unit filename="eventeditor.cpp" />
