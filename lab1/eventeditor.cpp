@@ -59,6 +59,8 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
 void Calendar::EventEditor::populateList() {
     table->setRowCount(0);
 
+    std::sort(localEvents.begin(), localEvents.end(), [](const LocalEvent& a, const LocalEvent& b) { return a.time < b.time; });
+
     for (QVector<LocalEvent>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it) {
         if (it->deleted)
             continue;
