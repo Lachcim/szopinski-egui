@@ -24,14 +24,12 @@ void Calendar::readData() {
 
     QTextStream stream(&file);
     while (!stream.atEnd()) {
-        QString year = stream.readLine();
-        QString month = stream.readLine();
-        QString day = stream.readLine();
+        QString date = stream.readLine();
         QString time = stream.readLine();
         QString description = stream.readLine();
 
         Event event;
-        event.date = QDate::fromString(year + "-" + month + "-" + day, "yyyy-MM-dd");
+        event.date = QDate::fromString(date, "yyyy-MM-dd");
         event.time = time;
         event.description = description;
 
@@ -48,7 +46,7 @@ void Calendar::writeData() {
 
     QTextStream stream(&file);
     for (QVector<Event>::const_iterator it = events.cbegin(); it != events.cend(); ++it) {
-        stream << it->date.toString("yyyy\nMM\ndd") << endl;
+        stream << it->date.toString("yyyy-MM-dd") << endl;
         stream << it->time << endl;
         stream << it->description << endl;
     }
