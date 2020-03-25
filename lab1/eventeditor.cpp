@@ -42,9 +42,9 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
 
     QVector<Event>::iterator it = events.begin();
     int i = 0;
-    while (it != events.cend()) {
+    while (it != events.end()) {
         if (it->date == date)
-            localEvents += LocalEvent(*it, i);
+            localEvents += LocalEvent(it);
 
         ++it;
         i++;
@@ -88,18 +88,18 @@ void Calendar::EventEditor::populateList() {
 }
 
 void Calendar::EventEditor::saveChanges() {
-    for (QVector<LocalEvent>::const_reverse_iterator it = localEvents.crbegin(); it != localEvents.crend(); ++it)
-        if (it->parentIndex == -1) {
+    for (QVector<LocalEvent>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it)
+        if (it->isNew) {
             if (!it->deleted)
                 events += *it;
         }
         else {
             if (!it->deleted) {
-                events[it->parentIndex].time = it->time;
-                events[it->parentIndex].description = it->description;
+                it->origin->time = it->time;
+                it->origin->description = it->description;
             }
             else
-                events.removeAt(it->parentIndex);
+                events.erase(it->origin);
         }
 
     emit dataChanged();

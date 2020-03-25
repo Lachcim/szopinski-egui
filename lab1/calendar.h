@@ -45,10 +45,11 @@ class Calendar::EventEditor : public QDialog {
 
     private:
         struct LocalEvent : Event {
-            LocalEvent() : Event(), parentIndex(-1) {};
-            LocalEvent(Event& parent, int index) : Event(parent), parentIndex(index) {};
+            LocalEvent() : isNew(true) {};
+            LocalEvent(QVector<Event>::iterator iter) : Event(*iter), origin(iter) {};
 
-            int parentIndex;
+            QVector<Event>::iterator origin;
+            bool isNew = false;
             bool deleted = false;
         };
         class EntryEditor;
