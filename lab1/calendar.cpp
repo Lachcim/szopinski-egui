@@ -30,7 +30,7 @@ void Calendar::readData() {
 
         Event event;
         event.date = QDate::fromString(date, "yyyy-MM-dd");
-        event.time = time;
+        event.time = QTime::fromString(time, "HH:mm");
         event.description = description;
 
         events += event;
@@ -47,7 +47,7 @@ void Calendar::writeData() {
     QTextStream stream(&file);
     for (QVector<Event>::const_iterator it = events.cbegin(); it != events.cend(); ++it) {
         stream << it->date.toString("yyyy-MM-dd") << endl;
-        stream << it->time << endl;
+        stream << it->time.toString("HH:mm") << endl;
         stream << it->description << endl;
     }
 

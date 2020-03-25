@@ -8,7 +8,7 @@ Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, LocalEvent& eve
     editorEvent = event;
     eventIsNew = newEntry;
 
-    findChild<QLineEdit*>("timeEdit")->setText(event.time);
+    findChild<QTimeEdit*>("timeEdit")->setTime(event.time);
     findChild<QLineEdit*>("descriptionEdit")->setText(event.description);
 
     QDialogButtonBox* buttonBox = findChild<QDialogButtonBox*>("buttonBox");
@@ -17,7 +17,7 @@ Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, LocalEvent& eve
 }
 
 void Calendar::EventEditor::EntryEditor::saveEvent() {
-    editorEvent.time = findChild<QLineEdit*>("timeEdit")->text();
+    editorEvent.time = findChild<QTimeEdit*>("timeEdit")->time();
     editorEvent.description = findChild<QLineEdit*>("descriptionEdit")->text();
     editorEvent.deleted = false;
 

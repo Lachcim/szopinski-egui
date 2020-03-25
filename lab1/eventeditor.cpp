@@ -64,7 +64,7 @@ void Calendar::EventEditor::populateList() {
             continue;
 
         table->insertRow(table->rowCount());
-        table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(it->time));
+        table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(it->time.toString("HH:mm")));
         table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(it->description));
 
         QWidget* buttonContainer = new QWidget();
@@ -119,7 +119,7 @@ void Calendar::EventEditor::deleteEvent(int index) {
 void Calendar::EventEditor::addEvent() {
     LocalEvent event;
     event.date = editorDate;
-    event.time = "";
+    event.time = QTime();
     event.description = "";
     event.deleted = true; //unless saved by editor
 

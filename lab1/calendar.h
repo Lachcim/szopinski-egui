@@ -19,7 +19,7 @@ class Calendar : public QMainWindow {
     private:
         struct Event {
             QDate date;
-            QString time;
+            QTime time;
             QString description;
         };
         class EventEditor;
