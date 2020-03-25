@@ -6,6 +6,7 @@ Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, LocalEvent& eve
         setWindowTitle("New entry");
 
     editorEvent = event;
+    addingEvent = adding;
 
     findChild<QTimeEdit*>("timeEdit")->setTime(event.time);
     findChild<QLineEdit*>("descriptionEdit")->setText(event.description);
@@ -22,7 +23,7 @@ void Calendar::EventEditor::EntryEditor::saveEvent() {
     close();
 }
 void Calendar::EventEditor::EntryEditor::discardEvent() {
-    if (editorEvent.isNew)
+    if (addingEvent)
         editorEvent.deleted = true;
 
     close();

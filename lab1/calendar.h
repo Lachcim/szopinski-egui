@@ -79,6 +79,7 @@ class Calendar::EventEditor::EntryEditor : public QDialog {
 
     private:
         LocalEvent& editorEvent;
+        bool addingEvent;
 
         Ui::EntryEditor ui;
 
