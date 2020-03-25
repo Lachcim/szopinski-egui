@@ -10,6 +10,9 @@
 #include <QMainWindow>
 #include <QTableWidget>
 
+//main application widget
+//responible for displaying the calendar, storing the data and performing IO operations
+//delegates high-level data operations to its private widgets
 class Calendar : public QMainWindow {
     Q_OBJECT
 
@@ -37,6 +40,10 @@ class Calendar : public QMainWindow {
         void updateWidget();
 };
 
+//event editor dialog
+//provides data editing functionality for an individual day
+//maintains a local event list which is synchronized with the main list when the save button is clicked
+//delegates text and time entry to private widget
 class Calendar::EventEditor : public QDialog {
     Q_OBJECT
 
@@ -44,6 +51,12 @@ class Calendar::EventEditor : public QDialog {
         explicit EventEditor(QWidget* parent, QVector<Event>& events, const QDate& date);
 
     private:
+        //wrapper structure for external events in the current context
+        //inherits from Event to provide extended functionality
+        //linked to its global counterpart via the origin field
+        //unlinked (new) elements have no origin and are marked as such
+        //deleted linked elements are removed from the top list
+        //deleted unlinked elements are ignored
         struct LocalEvent : Event {
             LocalEvent() : isNew(true) {};
             LocalEvent(QVector<Event>::iterator iter) : Event(*iter), origin(iter) {};
@@ -71,6 +84,9 @@ class Calendar::EventEditor : public QDialog {
         void saveChanges();
 };
 
+//text and time entry dialog
+//changes the specified event when saved
+//deletes events when cancelled while adding
 class Calendar::EventEditor::EntryEditor : public QDialog {
     Q_OBJECT
 

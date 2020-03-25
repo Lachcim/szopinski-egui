@@ -4,6 +4,9 @@
 #include <QCalendarWidget>
 #include <QSet>
 
+//custom calendar widget
+//inherits from QCalendarWidget, provides minor graphical changes
+//maintains a set of dates to be marked on the calendar
 class EventCalendarWidget : public QCalendarWidget {
     Q_OBJECT
 

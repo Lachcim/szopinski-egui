@@ -5,6 +5,7 @@
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 
+    //instantiate and show main widget
     Calendar calendar;
     calendar.readData();
     calendar.show();
