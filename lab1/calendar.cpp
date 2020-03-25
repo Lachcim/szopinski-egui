@@ -14,7 +14,7 @@ Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
     mainCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
     setCentralWidget(mainCalendar);
 
-    QObject::connect(mainCalendar, &EventCalendarWidget::clicked, this, &Calendar::editEvent);
+    QObject::connect(mainCalendar, &EventCalendarWidget::activated, this, &Calendar::editEvent);
 }
 
 void Calendar::readData() {
