@@ -116,8 +116,8 @@ void Calendar::EventEditor::saveChanges() {
 
 void Calendar::EventEditor::editEvent(int index) {
     EntryEditor editor(this, localEvents[index]);
-
     editor.exec();
+    populateList();
 }
 void Calendar::EventEditor::deleteEvent(int index) {
     localEvents[index].deleted = true;
@@ -129,9 +129,12 @@ void Calendar::EventEditor::addEvent() {
     event.date = editorDate;
     event.time = "";
     event.description = "";
+    event.deleted = true; //unless saved by editor
 
     localEvents += event;
     localEventsIndices += -1;
 
+    EntryEditor editor(this, localEvents.back(), true);
+    editor.exec();
     populateList();
 }

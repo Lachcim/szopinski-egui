@@ -69,11 +69,16 @@ class Calendar::EventEditor::EntryEditor : public QDialog {
     Q_OBJECT
 
     public:
-        explicit EntryEditor(QWidget* parent, Event& event);
+        explicit EntryEditor(QWidget* parent, Event& event, bool newEntry = false);
 
     private:
+        bool eventIsNew;
         Event& editorEvent;
+
         Ui::EntryEditor ui;
+
+    private slots:
+        void saveEvent();
 };
 
 #endif
