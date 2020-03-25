@@ -12,10 +12,6 @@ void EventCalendarWidget::paintCell(QPainter* painter, const QRect& rect, const 
         painter->fillRect(rect, QColor::fromRgb(128, 128, 255, 64));
 }
 
-void EventCalendarWidget::addEvent(const QDate& date) {
-    eventDates += date;
-}
-
-void EventCalendarWidget::removeEvent(const QDate& date) {
-    eventDates.removeOne(date);
+void EventCalendarWidget::markEventDates(const QSet<QDate>& dates) {
+    eventDates = dates;
 }

@@ -9,13 +9,11 @@ Calendar::Calendar(QWidget* parent) : QMainWindow(parent)
     setMinimumSize(QSize(480, 360));
     resize(800, 600);
 
-    EventCalendarWidget* mainCalendar = new EventCalendarWidget(this);
+    mainCalendar = new EventCalendarWidget(this);
     mainCalendar->setFirstDayOfWeek(Qt::Monday);
     mainCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
     setCentralWidget(mainCalendar);
 
-    QObject::connect(this, &Calendar::eventAdded, mainCalendar, &EventCalendarWidget::addEvent);
-    QObject::connect(this, &Calendar::eventRemoved, mainCalendar, &EventCalendarWidget::removeEvent);
     QObject::connect(mainCalendar, &EventCalendarWidget::clicked, this, &Calendar::editEvent);
 }
 
@@ -38,10 +36,10 @@ void Calendar::readData() {
         event.description = description;
 
         events += event;
-        emit eventAdded(event.date);
     }
 
     file.close();
+    updateWidget();
 }
 void Calendar::writeData() {
     QFile file("calendar.txt");
@@ -56,6 +54,7 @@ void Calendar::writeData() {
     }
 
     file.close();
+    updateWidget();
 }
 
 void Calendar::editEvent(const QDate& date) {
@@ -64,4 +63,12 @@ void Calendar::editEvent(const QDate& date) {
     QObject::connect(&editor, &Calendar::EventEditor::dataChanged, this, &Calendar::writeData);
 
     editor.exec();
+}
+void Calendar::updateWidget() {
+    QSet<QDate> dateSet;
+
+    for (QVector<Event>::const_iterator it = events.cbegin(); it != events.cend(); ++it)
+        dateSet += it->date;
+
+    mainCalendar->markEventDates(dateSet);
 }
