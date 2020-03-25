@@ -5,8 +5,7 @@
 #include <QVBoxLayout>
 #include <QHeaderView>
 
-Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents, const QDate& date) : QDialog(parent), events(parentEvents)
-{
+Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents, const QDate& date) : QDialog(parent), events(parentEvents) {
     setWindowTitle(date.toString("yyyy-MM-dd"));
     setMinimumSize(QSize(480, 360));
 
@@ -40,15 +39,9 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
     editorDate = date;
     events = parentEvents;
 
-    QVector<Event>::iterator it = events.begin();
-    int i = 0;
-    while (it != events.end()) {
+    for (QVector<Event>::iterator it = events.begin(); it != events.end(); ++it)
         if (it->date == date)
             localEvents += LocalEvent(it);
-
-        ++it;
-        i++;
-    }
 
     populateList();
 
