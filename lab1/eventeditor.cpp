@@ -43,7 +43,8 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
     QVector<Event>::iterator it = events.begin();
     int i = 0;
     while (it != events.cend()) {
-        localEvents += LocalEvent(*it, i);
+        if (it->date == date)
+            localEvents += LocalEvent(*it, i);
 
         ++it;
         i++;
