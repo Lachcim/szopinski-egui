@@ -121,13 +121,10 @@ void Calendar::EventEditor::deleteEvent(int index) {
 void Calendar::EventEditor::addEvent() {
     LocalEvent event;
     event.date = editorDate;
-    event.time = QTime();
-    event.description = "";
-    event.deleted = true; //unless saved by editor
 
     localEvents += event;
 
-    EntryEditor editor(this, localEvents.back(), true);
+    EntryEditor editor(this, localEvents.back());
     editor.exec();
     populateList();
 }
