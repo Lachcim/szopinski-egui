@@ -1,4 +1,5 @@
 #include <calendar.h>
+#include <QCloseEvent>
 
 //constuctor of entry editor
 Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, LocalEvent& event, bool adding) : QDialog(parent), editorEvent(event) {
@@ -34,4 +35,12 @@ void Calendar::EventEditor::EntryEditor::discardEvent() {
         editorEvent.deleted = true;
 
     close();
+}
+
+//discard event when closing window
+void Calendar::EventEditor::EntryEditor::closeEvent(QCloseEvent* e) {
+    if (e->spontaneous())
+        discardEvent();
+
+    e->accept();
 }

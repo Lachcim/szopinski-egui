@@ -97,6 +97,8 @@ class Calendar::EventEditor::EntryEditor : public QDialog {
         LocalEvent& editorEvent;
         bool addingEvent;
 
+        virtual void closeEvent(QCloseEvent* e);
+
         Ui::EntryEditor ui;
 
     private slots:
