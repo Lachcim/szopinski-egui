@@ -34,6 +34,7 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
     mainLayout->addLayout(subLayout);
     setLayout(mainLayout);
 
+    editorDate = date;
     events = parentEvents;
 
     QVector<Event>::const_iterator it = events.cbegin();
@@ -49,12 +50,18 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
     }
 
     populateList();
+
+    QObject::connect(addButton, &QPushButton::clicked, this, &Calendar::EventEditor::addEvent);
+    QObject::connect(saveButton, &QPushButton::clicked, this, &Calendar::EventEditor::saveChanges);
 }
 
 void Calendar::EventEditor::populateList() {
     table->setRowCount(0);
 
     for (QVector<Event>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it) {
+        if (it->deleted)
+            continue;
+
         table->insertRow(table->rowCount());
         table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(it->time));
         table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(it->description));
@@ -68,6 +75,8 @@ void Calendar::EventEditor::populateList() {
         QPushButton* deleteButton = new QPushButton(this);
         deleteButton->setText("Delete");
 
+        QObject::connect(deleteButton, &QPushButton::clicked, [=] { deleteEvent(it - localEvents.cbegin()); });
+
         buttonLayout->addWidget(editButton);
         buttonLayout->addWidget(deleteButton);
         buttonContainer->setLayout(buttonLayout);
@@ -77,5 +86,43 @@ void Calendar::EventEditor::populateList() {
 }
 
 void Calendar::EventEditor::saveChanges() {
+    QVector<Event>::const_reverse_iterator evIt = localEvents.crbegin();
+    QVector<int>::const_reverse_iterator inIt = localEventsIndices.crbegin();
 
+    while (evIt != localEvents.crend()) {
+        if (*inIt == -1) {
+            if (!evIt->deleted)
+                events += *evIt;
+        }
+        else {
+            if (!evIt->deleted) {
+                events[*inIt].time = evIt->time;
+                events[*inIt].description = evIt->description;
+            }
+            else
+                events.removeAt(*inIt);
+        }
+
+        ++evIt;
+        ++inIt;
+    }
+
+    close();
+}
+
+void Calendar::EventEditor::deleteEvent(int index) {
+    localEvents[index].deleted = true;
+    populateList();
+}
+
+void Calendar::EventEditor::addEvent() {
+    Event event;
+    event.date = editorDate;
+    event.time = "";
+    event.description = "";
+
+    localEvents += event;
+    localEventsIndices += -1;
+
+    populateList();
 }

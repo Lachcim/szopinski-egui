@@ -20,6 +20,7 @@ class Calendar : public QMainWindow {
             QDate date;
             QString time;
             QString description;
+            bool deleted = false;
         };
         class EventEditor;
 
@@ -41,6 +42,7 @@ class Calendar::EventEditor : public QDialog {
 
     private:
         QTableWidget* table;
+        QDate editorDate;
 
         QVector<Event>& events;
         QVector<Event> localEvents;
@@ -48,6 +50,8 @@ class Calendar::EventEditor : public QDialog {
 
     public slots:
         void populateList();
+        void addEvent();
+        void deleteEvent(int index);
         void saveChanges();
 };
 
