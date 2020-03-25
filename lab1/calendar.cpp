@@ -52,13 +52,13 @@ void Calendar::writeData() {
     }
 
     file.close();
-    updateWidget();
 }
 
 void Calendar::editEvent(const QDate& date) {
     EventEditor editor(this, events, date);
 
     QObject::connect(&editor, &Calendar::EventEditor::dataChanged, this, &Calendar::writeData);
+    QObject::connect(&editor, &Calendar::EventEditor::dataChanged, this, &Calendar::updateWidget);
 
     editor.exec();
 }
