@@ -107,6 +107,7 @@ void Calendar::EventEditor::saveChanges() {
         ++inIt;
     }
 
+    emit dataChanged();
     close();
 }
 

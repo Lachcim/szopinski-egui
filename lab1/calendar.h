@@ -13,7 +13,6 @@ class Calendar : public QMainWindow {
 
     public:
         explicit Calendar(QWidget* parent = nullptr);
-        void readData();
 
     private:
         struct Event {
@@ -27,6 +26,8 @@ class Calendar : public QMainWindow {
         QVector<Event> events;
 
     public slots:
+        void readData();
+        void writeData();
         void editEvent(const QDate& date);
 
     signals:
@@ -47,6 +48,9 @@ class Calendar::EventEditor : public QDialog {
         QVector<Event>& events;
         QVector<Event> localEvents;
         QVector<int> localEventsIndices;
+
+    signals:
+        void dataChanged();
 
     public slots:
         void populateList();

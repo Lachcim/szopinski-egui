@@ -43,8 +43,25 @@ void Calendar::readData() {
 
     file.close();
 }
+void Calendar::writeData() {
+    QFile file("calendar.txt");
+    if (!file.open(QIODevice::WriteOnly))
+        return;
+
+    QTextStream stream(&file);
+    for (QVector<Event>::const_iterator it = events.cbegin(); it != events.cend(); ++it) {
+        stream << it->date.toString("yyyy\nMM\ndd") << endl;
+        stream << it->time << endl;
+        stream << it->description << endl;
+    }
+
+    file.close();
+}
 
 void Calendar::editEvent(const QDate& date) {
     EventEditor editor(this, events, date);
+
+    QObject::connect(&editor, &Calendar::EventEditor::dataChanged, this, &Calendar::writeData);
+
     editor.exec();
 }
