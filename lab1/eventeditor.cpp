@@ -54,7 +54,7 @@ void Calendar::EventEditor::populateList() {
 
     std::sort(localEvents.begin(), localEvents.end(), [](const LocalEvent& a, const LocalEvent& b) { return a.time < b.time; });
 
-    for (QVector<LocalEvent>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it) {
+    for (QVector<LocalEvent>::iterator it = localEvents.begin(); it != localEvents.end(); ++it) {
         if (it->deleted)
             continue;
 
@@ -71,8 +71,8 @@ void Calendar::EventEditor::populateList() {
         QPushButton* deleteButton = new QPushButton(this);
         deleteButton->setText("Delete");
 
-        QObject::connect(editButton, &QPushButton::clicked, [=] { editEvent(it - localEvents.cbegin()); });
-        QObject::connect(deleteButton, &QPushButton::clicked, [=] { deleteEvent(it - localEvents.cbegin()); });
+        QObject::connect(editButton, &QPushButton::clicked, [=] { editEvent(*it); });
+        QObject::connect(deleteButton, &QPushButton::clicked, [=] { deleteEvent(*it); });
 
         buttonLayout->addWidget(editButton);
         buttonLayout->addWidget(deleteButton);
@@ -101,13 +101,13 @@ void Calendar::EventEditor::saveChanges() {
     close();
 }
 
-void Calendar::EventEditor::editEvent(int index) {
-    EntryEditor editor(this, localEvents[index]);
+void Calendar::EventEditor::editEvent(LocalEvent& event) {
+    EntryEditor editor(this, event);
     editor.exec();
     populateList();
 }
-void Calendar::EventEditor::deleteEvent(int index) {
-    localEvents[index].deleted = true;
+void Calendar::EventEditor::deleteEvent(LocalEvent& event) {
+    event.deleted = true;
     populateList();
 }
 
@@ -115,9 +115,11 @@ void Calendar::EventEditor::addEvent() {
     LocalEvent event;
     event.date = editorDate;
 
-    localEvents += event;
-
-    EntryEditor editor(this, localEvents.back(), true);
+    EntryEditor editor(this, event, true);
     editor.exec();
-    populateList();
+
+    if (!event.deleted) {
+        localEvents += event;
+        populateList();
+    }
 }

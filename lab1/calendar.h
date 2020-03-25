@@ -66,8 +66,8 @@ class Calendar::EventEditor : public QDialog {
     public slots:
         void populateList();
         void addEvent();
-        void editEvent(int index);
-        void deleteEvent(int index);
+        void editEvent(LocalEvent& event);
+        void deleteEvent(LocalEvent& event);
         void saveChanges();
 };
 
