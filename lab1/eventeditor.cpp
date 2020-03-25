@@ -12,13 +12,13 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
 
     table = new QTableWidget(this);
     table->setColumnCount(3);
+    table->setSelectionMode(QAbstractItemView::NoSelection);
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QStringList header;
     header << "Time" << "Description" << "Actions";
-    table->setHorizontalHeaderLabels(header);
     table->verticalHeader()->hide();
-    table->setSelectionMode(QAbstractItemView::NoSelection);
-    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    table->setHorizontalHeaderLabels(header);
     table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
