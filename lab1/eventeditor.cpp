@@ -124,7 +124,7 @@ void Calendar::EventEditor::addEvent() {
 
     localEvents += event;
 
-    EntryEditor editor(this, localEvents.back());
+    EntryEditor editor(this, localEvents.back(), true);
     editor.exec();
     populateList();
 }
