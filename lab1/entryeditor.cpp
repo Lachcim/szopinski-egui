@@ -1,6 +1,6 @@
 #include <calendar.h>
 
-Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, Event& event, bool newEntry) : QDialog(parent), editorEvent(event) {
+Calendar::EventEditor::EntryEditor::EntryEditor(QWidget* parent, LocalEvent& event, bool newEntry) : QDialog(parent), editorEvent(event) {
     ui.setupUi(this);
     if (newEntry)
         setWindowTitle("New entry");

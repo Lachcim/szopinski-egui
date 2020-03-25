@@ -40,13 +40,10 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
     editorDate = date;
     events = parentEvents;
 
-    QVector<Event>::const_iterator it = events.cbegin();
+    QVector<Event>::iterator it = events.begin();
     int i = 0;
     while (it != events.cend()) {
-        if (it->date == date) {
-            localEvents += *it;
-            localEventsIndices += i;
-        }
+        localEvents += LocalEvent(*it, i);
 
         ++it;
         i++;
@@ -61,7 +58,7 @@ Calendar::EventEditor::EventEditor(QWidget* parent, QVector<Event>& parentEvents
 void Calendar::EventEditor::populateList() {
     table->setRowCount(0);
 
-    for (QVector<Event>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it) {
+    for (QVector<LocalEvent>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it) {
         if (it->deleted)
             continue;
 
@@ -90,26 +87,19 @@ void Calendar::EventEditor::populateList() {
 }
 
 void Calendar::EventEditor::saveChanges() {
-    QVector<Event>::const_reverse_iterator evIt = localEvents.crbegin();
-    QVector<int>::const_reverse_iterator inIt = localEventsIndices.crbegin();
-
-    while (evIt != localEvents.crend()) {
-        if (*inIt == -1) {
-            if (!evIt->deleted)
-                events += *evIt;
+    for (QVector<LocalEvent>::const_reverse_iterator it = localEvents.crbegin(); it != localEvents.crend(); ++it)
+        if (it->parentIndex == -1) {
+            if (!it->deleted)
+                events += *it;
         }
         else {
-            if (!evIt->deleted) {
-                events[*inIt].time = evIt->time;
-                events[*inIt].description = evIt->description;
+            if (!it->deleted) {
+                events[it->parentIndex].time = it->time;
+                events[it->parentIndex].description = it->description;
             }
             else
-                events.removeAt(*inIt);
+                events.removeAt(it->parentIndex);
         }
-
-        ++evIt;
-        ++inIt;
-    }
 
     emit dataChanged();
     close();
@@ -126,14 +116,13 @@ void Calendar::EventEditor::deleteEvent(int index) {
 }
 
 void Calendar::EventEditor::addEvent() {
-    Event event;
+    LocalEvent event;
     event.date = editorDate;
     event.time = "";
     event.description = "";
     event.deleted = true; //unless saved by editor
 
     localEvents += event;
-    localEventsIndices += -1;
 
     EntryEditor editor(this, localEvents.back(), true);
     editor.exec();

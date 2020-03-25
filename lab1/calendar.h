@@ -21,7 +21,6 @@ class Calendar : public QMainWindow {
             QDate date;
             QString time;
             QString description;
-            bool deleted = false;
         };
         class EventEditor;
 
@@ -45,14 +44,20 @@ class Calendar::EventEditor : public QDialog {
         explicit EventEditor(QWidget* parent, QVector<Event>& events, const QDate& date);
 
     private:
+        struct LocalEvent : Event {
+            LocalEvent() : Event(), parentIndex(-1) {};
+            LocalEvent(Event& parent, int index) : Event(parent), parentIndex(index) {};
+
+            int parentIndex;
+            bool deleted = false;
+        };
         class EntryEditor;
 
         QTableWidget* table;
         QDate editorDate;
 
         QVector<Event>& events;
-        QVector<Event> localEvents;
-        QVector<int> localEventsIndices;
+        QVector<LocalEvent> localEvents;
 
     signals:
         void dataChanged();
@@ -69,11 +74,11 @@ class Calendar::EventEditor::EntryEditor : public QDialog {
     Q_OBJECT
 
     public:
-        explicit EntryEditor(QWidget* parent, Event& event, bool newEntry = false);
+        explicit EntryEditor(QWidget* parent, LocalEvent& event, bool newEntry = false);
 
     private:
         bool eventIsNew;
-        Event& editorEvent;
+        LocalEvent& editorEvent;
 
         Ui::EntryEditor ui;
 
