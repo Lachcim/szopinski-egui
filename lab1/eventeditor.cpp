@@ -106,6 +106,11 @@ void Calendar::EventEditor::populateList() {
 
 //synchronize local events with global events
 void Calendar::EventEditor::saveChanges() {
+    //sort local events by index in global list to prevent iterator invalidation when erasing
+    std::sort(localEvents.begin(), localEvents.end(), [&](const LocalEvent& a, const LocalEvent& b) {
+        return b.origin - events.begin() < a.origin - events.begin();
+    });
+
     //iterate over local events
     for (QVector<LocalEvent>::const_iterator it = localEvents.cbegin(); it != localEvents.cend(); ++it)
         if (it->isNew) {
