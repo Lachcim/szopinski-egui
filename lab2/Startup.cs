@@ -27,9 +27,11 @@ namespace SzopinskiCalendar
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("main", "", new { controller="Calendar", action="DisplayCalendar" });
-                endpoints.MapControllerRoute("main", "{date}", new { controller="Calendar", action="DisplayDate" });
-                endpoints.MapControllerRoute("main", "{date}/{index}", new { controller="Calendar", action="EditEvent" });
+                endpoints.MapControllerRoute("today", "", new { controller="Calendar", action="DisplayCalendar" });
+                endpoints.MapControllerRoute("month", "{year}-{month}", new { controller="Calendar", action="DisplayCalendar" });
+                endpoints.MapControllerRoute("date", "{year}-{month}-{day}", new { controller="Calendar", action="DisplayDate" });
+                endpoints.MapControllerRoute("event", "{year}-{month}-{day}/new", new { controller="Calendar", action="AddEvent" });
+                endpoints.MapControllerRoute("event", "{year}-{month}-{day}/{index}", new { controller="Calendar", action="EditEvent" });
             });
         }
     }

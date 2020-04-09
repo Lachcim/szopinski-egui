@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SzopinskiCalendar.Controllers {
@@ -5,17 +6,31 @@ namespace SzopinskiCalendar.Controllers {
     {
         public string DisplayCalendar()
         {
-            return "Displaying calendar";
+            int year = DateTime.Today.Year;
+            int month = DateTime.Today.Month;
+            
+            return DisplayCalendar(year, month);
         }
 
-        public string DisplayDate()
-        {
-            return "Displaying individual date";
+        [Route("{year:int}-{month:int}")]
+        public string DisplayCalendar(int year, int month) {
+            return $"Displaying calendar for {year}-{month}";
         }
 
-        public string EditEvent()
+        [Route("{year:int}-{month:int}-{day:int}")]
+        public string DisplayDate(int year, int month, int day)
         {
-            return "Editing individual event";
+            return $"Displaying individual date: {year}-{month}-{day}";
+        }
+
+        public string AddEvent(int year, int month, int day)
+        {
+            return $"Adding new event to {year}-{month}-{day}";
+        }
+
+        public string EditEvent(int year, int month, int day, int index)
+        {
+            return $"Editing individual event: #{index} of {year}-{month}-{day}";
         }
     }
 }
