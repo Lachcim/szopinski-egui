@@ -27,7 +27,8 @@ namespace SzopinskiCalendar.Controllers {
             data.Events = GetEvents(year, month);
 
             if (data.Events == null) {
-                return Json(new { status="error", message="Couldn't read calendar data"});
+                HttpContext.Response.StatusCode = 500;
+                return Content("Error reading calendar data");
             }
 
             return View(data);
@@ -55,17 +56,22 @@ namespace SzopinskiCalendar.Controllers {
             for (int i = 1; i <= 31; i++)
                 output.Add(i, new List<EventViewModel>());
 
+            if (!System.IO.File.Exists("calendar.txt")) {
+                using (System.IO.File.Create("calendar.txt")) {}
+                return output;
+            }    
+
             try {
-                StreamReader reader = System.IO.File.OpenText("calendar.txt");
+                using (StreamReader reader = System.IO.File.OpenText("calendar.txt")) {
+                    while (!reader.EndOfStream) {
+                        EventViewModel entry = new EventViewModel();
+                        entry.Id = Convert.ToInt32(reader.ReadLine());
+                        entry.Time = DateTime.ParseExact(reader.ReadLine(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                        entry.Description = reader.ReadLine();
 
-                while (!reader.EndOfStream) {
-                    EventViewModel entry = new EventViewModel();
-                    entry.Id = Convert.ToInt32(reader.ReadLine());
-                    entry.Time = DateTime.ParseExact(reader.ReadLine(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                    entry.Description = reader.ReadLine();
-
-                    if (entry.Time.Year == year && entry.Time.Month == month)
-                        output[entry.Time.Day].Add(entry);
+                        if (entry.Time.Year == year && entry.Time.Month == month)
+                            output[entry.Time.Day].Add(entry);
+                    }
                 }
             }
             catch (Exception) {
