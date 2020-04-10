@@ -59,7 +59,7 @@ namespace SzopinskiCalendar.Controllers {
             if (action == "edit")
                 return RedirectToAction("EditEvent", new { id=id });
             else if (action == "delete")
-                return DeleteEvent(id);
+                return DeleteEvent(id, year, month, day);
             else if (action == "new")
                 return RedirectToAction("AddEvent", new { year=year, month=Pad(month), day=Pad(day) });
             else {
@@ -68,9 +68,29 @@ namespace SzopinskiCalendar.Controllers {
             }
         }
 
-        public IActionResult DeleteEvent(int id)
+        public IActionResult DeleteEvent(int id, int year, int month, int day)
         {
-            return Content("Deleting " + id);
+            Dictionary<int, List<EventViewModel>> events = GetEvents();
+
+            foreach (List<EventViewModel> list in events.Values) {
+                bool found = false;
+                
+                foreach (EventViewModel ev in list) 
+                    if (ev.Id == id) {
+                        list.Remove(ev);
+                        found = true;
+                        break;
+                    }
+
+                if (found) break;
+            }
+
+            if (!SaveEvents(events)) {
+                HttpContext.Response.StatusCode = 500;
+                return Content("Error writing calendar data");
+            }
+
+            return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
         }
 
         [Route("{year:int}-{month:int}-{day:int}/new")]
@@ -84,7 +104,7 @@ namespace SzopinskiCalendar.Controllers {
             return $"Editing individual event {id}";
         }
 
-        private Dictionary<int, List<EventViewModel>> GetEvents(int year, int month) {
+        private Dictionary<int, List<EventViewModel>> GetEvents(int year=0, int month=0) {
             Dictionary<int, List<EventViewModel>> output = new Dictionary<int, List<EventViewModel>>();
 
             for (int i = 1; i <= 31; i++)
@@ -103,7 +123,7 @@ namespace SzopinskiCalendar.Controllers {
                         entry.Time = DateTime.ParseExact(reader.ReadLine(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
                         entry.Description = reader.ReadLine();
 
-                        if (entry.Time.Year == year && entry.Time.Month == month)
+                        if ((entry.Time.Year == year && entry.Time.Month == month) || month == 0)
                             output[entry.Time.Day].Add(entry);
                     }
                 }
@@ -118,6 +138,24 @@ namespace SzopinskiCalendar.Controllers {
                 });
 
             return output;
+        }
+
+        private bool SaveEvents(Dictionary<int, List<EventViewModel>> events) {
+          try {
+                using (StreamWriter writer = new System.IO.StreamWriter("calendar.txt")) {
+                    foreach (List<EventViewModel> list in events.Values)
+                        foreach (EventViewModel ev in list) {
+                            writer.WriteLine(ev.Id);
+                            writer.WriteLine(ev.Time.ToString("yyyy-MM-dd HH:mm"));
+                            writer.WriteLine(ev.Description);
+                        }
+                }
+            }
+            catch (Exception) {
+                return false;
+            }
+
+            return true;
         }
 
         private string Pad(int input) {
