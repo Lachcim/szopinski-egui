@@ -7,12 +7,12 @@ namespace SzopinskiCalendar.Models {
         public string Description;
 
         public EventViewModel() {}
-        public EventViewModel(int year, int month, int day)
+        public EventViewModel(int year, int month, int day, int hour, int minute)
         {
             try
             {
                 Id = -1;
-                Time = new DateTime(year, month, day, 0, 0, 0);
+                Time = new DateTime(year, month, day, hour, minute, 0);
             }
             catch (Exception)
             {

@@ -81,6 +81,7 @@ namespace SzopinskiCalendar
                 if (ev.Id == id)
                 {
                     events.Remove(ev);
+                    SaveEvents(events);
                     return;
                 }
 
@@ -104,6 +105,43 @@ namespace SzopinskiCalendar
             {
                 throw new IOException("Error writing calendar data");
             }
+        }
+
+        public static DateTime UpdateEvent(int id, int hour, int minute, string description)
+        {
+            List<EventViewModel> events = GetEvents();
+
+            for (int i = 0; i < events.Count; i++)
+                if (events[i].Id == id)
+                {
+                    int year = events[i].Time.Year;
+                    int month = events[i].Time.Month;
+                    int day = events[i].Time.Day;
+                    
+                    events[i].Time = new DateTime(year, month, day, hour, minute, 0);
+                    events[i].Description = description;
+
+                    SaveEvents(events);
+                    return events[i].Time;
+                }
+
+            throw new ArgumentException("No event with the given id");
+        }
+
+        public static int AddEvent(EventViewModel newEvent)
+        {
+            List<EventViewModel> events = GetEvents();
+            int maxId = -1;
+
+            foreach (EventViewModel ev in events)
+                if (ev.Id > maxId)
+                    maxId = ev.Id + 1;
+
+            newEvent.Id = maxId + 1;
+            events.Add(newEvent);
+
+            SaveEvents(events);
+            return newEvent.Id;
         }
     }
 }

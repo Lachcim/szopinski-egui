@@ -72,7 +72,7 @@ namespace SzopinskiCalendar.Controllers {
             if (id != -1)
                 data = DataHandler.GetEvent(id);
             else
-                data = new EventViewModel(year, month, day);
+                data = new EventViewModel(year, month, day, 12, 0);
 
             return View("EditEvent", data);
         }
@@ -80,8 +80,31 @@ namespace SzopinskiCalendar.Controllers {
         [HttpPost]
         [Route("edit/{id:int}")]
         [Route("{year:int}-{month:int}-{day:int}/new")]
-        public IActionResult ApplyChanges(int id, string time, string description, int year=0, int month=0, int day=0) {
-            return Content("changes applied to " + id + ", time: " + time + ", desc: " + description + ", date: " + year + "-" + month + "-" + day);
+        public IActionResult ApplyChanges(int id, string time, string description, int year=0, int month=0, int day=0)
+        {
+            int hour, minute;
+            
+            try {
+                hour = Convert.ToInt32(time.Substring(0, 2));
+                minute = Convert.ToInt32(time.Substring(3, 2));
+            }
+            catch (Exception) {
+                throw new ArgumentException("Invalid time");
+            }
+            
+            if (id != -1)
+            {
+                DateTime eventTime = DataHandler.UpdateEvent(id, hour, minute, description);
+                return RedirectToAction("DisplayDate", new { year=eventTime.Year, month=Pad(eventTime.Month), day=Pad(eventTime.Day) });
+            }
+            else
+            {
+                EventViewModel newEvent = new EventViewModel(year, month, day, hour, minute);
+                newEvent.Description = description;
+                
+                DataHandler.AddEvent(newEvent);
+                return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
+            }
         }
 
         private string Pad(int input) {
