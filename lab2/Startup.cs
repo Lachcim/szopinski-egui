@@ -31,7 +31,7 @@ namespace SzopinskiCalendar
                 endpoints.MapControllerRoute("month", "{year}-{month}", new { controller="Calendar", action="DisplayCalendar" });
                 endpoints.MapControllerRoute("date", "{year}-{month}-{day}", new { controller="Calendar", action="DisplayDate" });
                 endpoints.MapControllerRoute("event", "{year}-{month}-{day}/new", new { controller="Calendar", action="AddEvent" });
-                endpoints.MapControllerRoute("event", "{year}-{month}-{day}/{index}", new { controller="Calendar", action="EditEvent" });
+                endpoints.MapControllerRoute("event", "edit/{id}", new { controller="Calendar", action="EditEvent" });
             });
         }
     }

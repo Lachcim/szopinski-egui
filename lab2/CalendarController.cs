@@ -53,14 +53,35 @@ namespace SzopinskiCalendar.Controllers {
             return View(data);
         }
 
+        [HttpPost]
+        [Route("{year:int}-{month:int}-{day:int}")]
+        public IActionResult ModifyDate(string action, int year, int month, int day, int id=0) {
+            if (action == "edit")
+                return RedirectToAction("EditEvent", new { id=id });
+            else if (action == "delete")
+                return DeleteEvent(id);
+            else if (action == "new")
+                return RedirectToAction("AddEvent", new { year=year, month=Pad(month), day=Pad(day) });
+            else {
+                HttpContext.Response.StatusCode = 400;
+                return Content("Invalid action");
+            }
+        }
+
+        public IActionResult DeleteEvent(int id)
+        {
+            return Content("Deleting " + id);
+        }
+
+        [Route("{year:int}-{month:int}-{day:int}/new")]
         public string AddEvent(int year, int month, int day)
         {
             return $"Adding new event to {year}-{month}-{day}";
         }
 
-        public string EditEvent(int year, int month, int day, int index)
+        public string EditEvent(int id, bool adding=false)
         {
-            return $"Editing individual event: #{index} of {year}-{month}-{day}";
+            return $"Editing individual event {id}";
         }
 
         private Dictionary<int, List<EventViewModel>> GetEvents(int year, int month) {
@@ -92,6 +113,10 @@ namespace SzopinskiCalendar.Controllers {
             }
 
             return output;
+        }
+
+        private string Pad(int input) {
+            return input.ToString().PadLeft(2, '0');
         }
     }
 }
