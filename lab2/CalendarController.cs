@@ -94,14 +94,41 @@ namespace SzopinskiCalendar.Controllers {
         }
 
         [Route("{year:int}-{month:int}-{day:int}/new")]
-        public string AddEvent(int year, int month, int day)
+        public IActionResult AddEvent(int year, int month, int day)
         {
-            return $"Adding new event to {year}-{month}-{day}";
+            return EditEvent(-1, year, month, day);
         }
 
-        public string EditEvent(int id, bool adding=false)
+        public IActionResult EditEvent(int id, int year=0, int month=0, int day=0)
         {
-            return $"Editing individual event {id}";
+            EventViewModel data;
+
+            if (id == -1) {
+                data = new EventViewModel();
+                data.Id = -1;
+                data.Time = new DateTime(year, month, day, 00, 00, 00);
+            }
+            else {
+                Dictionary<int, List<EventViewModel>> events = GetEvents();
+
+                bool found = false;
+                foreach (List<EventViewModel> list in events.Values) {
+                    foreach (EventViewModel ev in list) 
+                        if (ev.Id == id) {
+                            data = ev;
+                            found = true;
+                        }
+
+                    if (found) break;
+                }
+
+                if (!found) {
+                    HttpContext.Response.StatusCode = 400;
+                    return Content("No such event");
+                }
+            }
+
+            return Content("Editing event " + id);
         }
 
         private Dictionary<int, List<EventViewModel>> GetEvents(int year=0, int month=0) {
