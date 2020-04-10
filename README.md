@@ -8,10 +8,20 @@ The goal of the project is to create a simple calendar application capable of st
 
 ### Lab 1: Qt
 ```bash
-git clone https://github.com/Lachcim/szopinski-egui/
+git clone https://github.com/Lachcim/szopinski-egui
 cd szopinski-egui/lab1
 qmake
 make
 cd bin
 ./szopinski-egui
 ```
+### Lab 2: ASP.NET MVC
+
+```bash
+git clone https://github.com/Lachcim/szopinski-egui
+cd szopinski-egui/lab2
+dotnet build
+dotnet run
+```
+
+Kestrel will be listening to all hostnames on port 5000.
