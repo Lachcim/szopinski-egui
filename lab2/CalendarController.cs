@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SzopinskiCalendar.Controllers {
     public class CalendarController : Controller
     {
-        public string DisplayCalendar()
+        public IActionResult DisplayCalendar()
         {
             int year = DateTime.Today.Year;
             int month = DateTime.Today.Month;
@@ -13,8 +13,8 @@ namespace SzopinskiCalendar.Controllers {
         }
 
         [Route("{year:int}-{month:int}")]
-        public string DisplayCalendar(int year, int month) {
-            return $"Displaying calendar for {year}-{month}";
+        public IActionResult DisplayCalendar(int year, int month) {
+            return View();
         }
 
         [Route("{year:int}-{month:int}-{day:int}")]
