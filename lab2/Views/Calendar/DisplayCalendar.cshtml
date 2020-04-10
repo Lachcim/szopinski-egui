@@ -1,29 +1,30 @@
+@model CalendarViewModel
 @{
-    ViewData["Title"] = "Calendar";
+    ViewData["Title"] = Model.MonthName + " " + Model.Year;
 }
 
 <header>
 	<h1 class="monthpicker">
 		<span>
-			<span id="monthDisplay">February</span>
+			<span id="monthDisplay">@Model.MonthName</span>
 			<select id="month" onchange="changeMonth()">
-				<option value="01">January</option>
-				<option value="02" selected>February</option>
-				<option value="03">March</option>
-				<option value="04">April</option>
-				<option value="05">May</option>
-				<option value="06">June</option>
-				<option value="07">July</option>
-				<option value="08">August</option>
-				<option value="09">September</option>
-				<option value="10">October</option>
-				<option value="11">November</option>
-				<option value="12">December</option>
+				<option value="01" selected="@(Model.Month == 1)">January</option>
+				<option value="02" selected="@(Model.Month == 2)">February</option>
+				<option value="03" selected="@(Model.Month == 3)">March</option>
+				<option value="04" selected="@(Model.Month == 4)">April</option>
+				<option value="05" selected="@(Model.Month == 5)">May</option>
+				<option value="06" selected="@(Model.Month == 6)">June</option>
+				<option value="07" selected="@(Model.Month == 7)">July</option>
+				<option value="08" selected="@(Model.Month == 8)">August</option>
+				<option value="09" selected="@(Model.Month == 9)">September</option>
+				<option value="10" selected="@(Model.Month == 10)">October</option>
+				<option value="11" selected="@(Model.Month == 11)">November</option>
+				<option value="12" selected="@(Model.Month == 12)">December</option>
 			</select>
 			<button class="circle down dropdown"></button>
 		</span>
 		<span>
-			<span id="year">2020</span>
+			<span id="year">@Model.Year</span>
 			<button class="circle up" onclick="changeYear(true)"></button>
 			<button class="circle down" onclick="changeYear(false)"></button>
 			<button id="acceptDate" class="circle accept" onclick="changeDate()" disabled></button>
@@ -31,62 +32,21 @@
 	</h1>
 </header>
 <main>
-	<div class="day"></div>
-	<div class="day"></div>
-	<div class="day"></div>
-	<div class="day"></div>
-	<div class="day"></div>
-	<div class="day">
-		<a href="2020-02-15">
-			<h2>15</h2>
-			<ul>
-				<li>Walk the dog</li>
-				<li>Go to the barber shop</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-			</ul>
-		</a>
-	</div>
-	<div class="day busy">
-		<a href="2020-02-15">
-			<h2>16</h2>
-			<ul>
-				<li>Walk the dog</li>
-				<li>Go to the barber shop</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-				<li>Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-			</ul>
-		</a>
-	</div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
-	<div class="day"><a href="2020-02-15"></a></div>
+	@for (int i = 0; i < Model.StartWeekday; i++) {
+		<div class="day"></div>	
+	}
+	@for (int day = 1; day <= Model.DayCount; day++) {
+		<div class="day @(Model.Events.ContainsKey(day) ? "busy" : "")">
+			<a href="@Model.Year-@Model.Month.ToString().PadLeft(2, '0')-@day.ToString().PadLeft(2, '0')">
+				<h2>@day</h2>
+				<ul>
+					@if (Model.Events.ContainsKey(day)) {
+						@foreach (EventViewModel item in Model.Events[day]) {
+							<li>@item.Description</li>
+						}
+					}
+				</ul>
+			</a>
+		</div>
+	}
 </main>
