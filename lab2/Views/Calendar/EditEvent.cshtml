@@ -1,0 +1,24 @@
+﻿@model EventViewModel
+@{
+	ViewData["Title"] = Model.Id == -1 ? "Add event" : "Edit event";
+	ViewData["Compact"] = true;
+}
+
+<header>
+	<h1>
+		@ViewData["Title"]
+	</h1>
+</header>
+<main class="inputs">
+	<form method="post">
+		<input type="hidden" name="id" value="@Model.Id">
+		<h2>Time</h2>
+		<input type="time" name="time" value="@Model.Time.ToString("HH:mm")">
+		<h2>Description</h2>
+		<textarea name="description">@Model.Description</textarea>
+		<div class="finalbuttons">
+			<a href="/@Model.Time.ToString("yyyy-MM-dd")" class="button large">Cancel</a>
+			<button class="large">Apply</button>
+		</div>
+	</form>
+</main>

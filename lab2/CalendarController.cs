@@ -99,9 +99,10 @@ namespace SzopinskiCalendar.Controllers {
             return EditEvent(-1, year, month, day);
         }
 
+        [Route("edit/{id:int}")]
         public IActionResult EditEvent(int id, int year=0, int month=0, int day=0)
         {
-            EventViewModel data;
+            EventViewModel data = null;
 
             if (id == -1) {
                 data = new EventViewModel();
@@ -128,7 +129,14 @@ namespace SzopinskiCalendar.Controllers {
                 }
             }
 
-            return Content("Editing event " + id);
+            return View("EditEvent", data);
+        }
+
+        [HttpPost]
+        [Route("edit/{id:int}")]
+        [Route("{year:int}-{month:int}-{day:int}/new")]
+        public IActionResult ApplyChanges(int id, string time, string description, int year=0, int month=0, int day=0) {
+            return Content("changes applied to " + id + ", time: " + time + ", desc: " + description + ", date: " + year + "-" + month + "-" + day);
         }
 
         private Dictionary<int, List<EventViewModel>> GetEvents(int year=0, int month=0) {
