@@ -11,7 +11,7 @@
 		<script src="calendar.js"></script>
 	</head>
 	<body>
-		<div id="mainwrapper">
+		<div id="mainwrapper" class="@(ViewData.ContainsKey("Compact") ? "compact" : "")">
 			@RenderBody()
 			<footer>
 				<p>Calendar by Szopiński</p>

@@ -16,6 +16,9 @@ body {
 	max-width: 70em;
 	max-height: 100%;
 }
+#mainwrapper.compact {
+	max-width: 30em;
+}
 select, input {
 	font-size: inherit;
 	font-family: inherit;
@@ -24,9 +27,6 @@ main {
 	padding: 0.5em;
 	background-color: #EFEFEF;
 	border-radius: 3px;
-	
-	display: flex;
-	flex-wrap: wrap;
 	
 	width: 100%;
 	box-sizing: border-box;
@@ -42,7 +42,27 @@ a {
 input[type=number] {
 	-moz-appearance: textfield;
 }
+input[type=submit], button, a.button {
+	font-family: inherit;
+	font-size: 0.9em;
+	color: rgba(0, 0, 0, 0.8);
+	font-weight: inherit;
+	
+	padding: 0.4em;
+	
+	background-color: #E5E5E5;
+	border: none;
+}
+input[type=submit].large, button.large, a.button.large {
+	font-size: 1.2em;
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+}
 
+main.calendar {
+	display: flex;
+	flex-wrap: wrap;
+}
 div.day {	
 	width: 14.285714%;
 	padding-top: 11.428571%;
@@ -68,7 +88,7 @@ div.day h2 {
 }
 div.day ul {
 	margin: 0;
-	padding-inline-start: 0;
+	padding: 0;
 	list-style-type: none;
 	
 	width: 100%;
@@ -122,6 +142,45 @@ h1.monthpicker select {
 	opacity: 0;
 	z-index: 1;
 	cursor: pointer;
+}
+
+ul.events {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+ul.events li {
+	display: flex;
+	padding: 1em;
+	
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+}
+ul.events li:not(:first-of-type) {
+	margin-top: 5px;
+}
+ul.events li > * {
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+ul.events h2 {
+	flex-basis: 3em;
+	flex-shrink: 0;
+}
+ul.events p {
+	margin: 0 0.5em;
+	word-break: break-word;
+	flex-grow: 1;
+}
+ul.events button:first-of-type {
+	margin-right: 0.5em;
+}
+div.finalbuttons {
+	margin-top: 5px;
+}
+div.finalbuttons > *:first-child {
+	float: right;
 }
 
 button.circle {
@@ -192,12 +251,23 @@ button.circle.accept::before {
 	main {
 		padding: 0.25em;
 	}
-	div.day > a {
+	div.day > a, ul.events li, button.large, input[type=submit].large, a.button.large {
 		border-bottom-width: 3px;
 	}
 	header, footer {
 		margin-left: 1em;
 		margin-right: 1em;
+	}
+	ul.events form.actions {
+		flex-direction: column;
+		justify-content: center;
+	}
+	ul.events button {
+		width: 100%;
+	}
+	ul.events button:first-of-type {
+		margin-right: 0;
+		margin-bottom: 0.5em;
 	}
 }
 @media screen and (max-width: 600px) {

@@ -35,9 +35,9 @@ namespace SzopinskiCalendar.Controllers {
         }
 
         [Route("{year:int}-{month:int}-{day:int}")]
-        public string DisplayDate(int year, int month, int day)
+        public IActionResult DisplayDate(int year, int month, int day)
         {
-            return $"Displaying individual date: {year}-{month}-{day}";
+            return View();
         }
 
         public string AddEvent(int year, int month, int day)
