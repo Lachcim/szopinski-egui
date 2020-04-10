@@ -1,34 +1,34 @@
-﻿@{
+﻿@model DateViewModel
+@{
+	ViewData["Title"] = Model.Year
+						+ "-"
+						+ Model.Month.ToString().PadLeft(2, '0')
+						+ "-"
+						+ Model.Day.ToString().PadLeft(2, '0');
 	ViewData["Compact"] = true;
 }
 
 <header>
 	<h1>
-		2020-04-12
+		@ViewData["Title"]
 	</h1>
 </header>
 <main>
 	<ul class="events">
-		<li>
-			<h2>10:00</h2>
-			<p>Wielkanoc dsdsds dasddsdfsf gdfghdfgf dfgdfgdfg df gdfgdgdfg dfgdfgf AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
-			<form class="actions">
-				<button>Edit</button>
-				<button>Delete</button>
-			</form>
-		</li>
-		<li>
-			<h2>11:00</h2>
-			<p>Wielkanoc</p>
-			<form class="actions" method="post">
-				<input type="hidden" name="id" value="555">
-				<button name="action" value="edit">Edit</button>
-				<button name="action" value="delete">Delete</button>
-			</form>
-		</li>
+		@foreach (EventViewModel item in Model.Events) {
+			<li>
+				<h2>@item.Time.ToString("HH:mm")</h2>
+				<p>@item.Description</p>
+				<form class="actions" method="post">
+					<input type="hidden" name="id" value="@item.Id">
+					<button name="action" value="edit">Edit</button>
+					<button name="action" value="delete">Delete</button>
+				</form>
+			</li>
+		}
 	</ul>
 	<div class="finalbuttons">
-		<a href="2020-04" class="button large">Back</a>
+		<a href="@Model.Year-@Model.Month.ToString().PadLeft(2, '0')" class="button large">Back</a>
 		<form method="post">
 			<input type="hidden" name="action" value="new">
 			<button class="large">Add new</button>

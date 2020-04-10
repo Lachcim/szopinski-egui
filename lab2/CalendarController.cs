@@ -37,7 +37,20 @@ namespace SzopinskiCalendar.Controllers {
         [Route("{year:int}-{month:int}-{day:int}")]
         public IActionResult DisplayDate(int year, int month, int day)
         {
-            return View();
+            DateViewModel data = new DateViewModel();
+            data.Year = year;
+            data.Month = month;
+            data.Day = day;
+            
+            Dictionary<int, List<EventViewModel>> events = GetEvents(year, month);
+            if (events == null) {
+                HttpContext.Response.StatusCode = 500;
+                return Content("Error reading calendar data");
+            }
+
+            data.Events = events[day];
+
+            return View(data);
         }
 
         public string AddEvent(int year, int month, int day)
