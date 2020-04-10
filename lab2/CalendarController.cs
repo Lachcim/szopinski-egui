@@ -111,6 +111,11 @@ namespace SzopinskiCalendar.Controllers {
             catch (Exception) {
                 return null;
             }
+            
+            for (int i = 1; i <= 31; i++)
+                output[i].Sort(delegate(EventViewModel a, EventViewModel b) {
+                    return a.Time.CompareTo(b.Time);
+                });
 
             return output;
         }
