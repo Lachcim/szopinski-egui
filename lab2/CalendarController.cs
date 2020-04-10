@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using SzopinskiCalendar.Models;
 
@@ -17,35 +19,17 @@ namespace SzopinskiCalendar.Controllers {
         [Route("{year:int}-{month:int}")]
         public IActionResult DisplayCalendar(int year, int month) {
             CalendarViewModel data = new CalendarViewModel();
-            data.Year = 1997;
-            data.Month = 5;
-            data.MonthName = "May";
-            data.StartWeekday = 2;
-            data.DayCount = 31;
-            data.Events = new Dictionary<int, List<EventViewModel>>();
+            data.Year = year;
+            data.Month = month;
+            data.MonthName = new CultureInfo("en-US").DateTimeFormat.MonthNames[month - 1];
+            data.StartWeekday = ((int)new DateTime(year, month, 1).DayOfWeek + 6) % 7;
+            data.DayCount = DateTime.DaysInMonth(year, month);
+            data.Events = GetEvents(year, month);
 
-            EventViewModel event1 = new EventViewModel();
-            event1.Id = 555;
-            event1.Time = new DateTime(1997, 05, 07, 14, 00, 00);
-            event1.Description = "Walk the dog";
-            EventViewModel event2 = new EventViewModel();
-            event2.Id = 666;
-            event2.Time = new DateTime(1997, 05, 07, 15, 00, 00);
-            event2.Description = "Buy new shoes";
-            EventViewModel event3 = new EventViewModel();
-            event3.Id = 777;
-            event3.Time = new DateTime(1997, 05, 08, 14, 00, 00);
-            event3.Description = "Take a shower";
+            if (data.Events == null) {
+                return Json(new { status="error", message="Couldn't read calendar data"});
+            }
 
-            List<EventViewModel> list1 = new List<EventViewModel>();
-            list1.Add(event1);
-            list1.Add(event2);
-            List<EventViewModel> list2 = new List<EventViewModel>();
-            list2.Add(event3);
-
-            data.Events.Add(7, list1);
-            data.Events.Add(8, list2);
-            
             return View(data);
         }
 
@@ -63,6 +47,32 @@ namespace SzopinskiCalendar.Controllers {
         public string EditEvent(int year, int month, int day, int index)
         {
             return $"Editing individual event: #{index} of {year}-{month}-{day}";
+        }
+
+        private Dictionary<int, List<EventViewModel>> GetEvents(int year, int month) {
+            Dictionary<int, List<EventViewModel>> output = new Dictionary<int, List<EventViewModel>>();
+
+            for (int i = 1; i <= 31; i++)
+                output.Add(i, new List<EventViewModel>());
+
+            try {
+                StreamReader reader = System.IO.File.OpenText("calendar.txt");
+
+                while (!reader.EndOfStream) {
+                    EventViewModel entry = new EventViewModel();
+                    entry.Id = Convert.ToInt32(reader.ReadLine());
+                    entry.Time = DateTime.ParseExact(reader.ReadLine(), "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                    entry.Description = reader.ReadLine();
+
+                    if (entry.Time.Year == year && entry.Time.Month == month)
+                        output[entry.Time.Day].Add(entry);
+                }
+            }
+            catch (Exception) {
+                return null;
+            }
+
+            return output;
         }
     }
 }

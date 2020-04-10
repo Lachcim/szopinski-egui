@@ -1,6 +1,6 @@
 @model CalendarViewModel
 @{
-    ViewData["Title"] = Model.MonthName + " " + Model.Year;
+	ViewData["Title"] = Model.MonthName + " " + Model.Year;
 }
 
 <header>
@@ -36,14 +36,12 @@
 		<div class="day"></div>	
 	}
 	@for (int day = 1; day <= Model.DayCount; day++) {
-		<div class="day @(Model.Events.ContainsKey(day) ? "busy" : "")">
+		<div class="day @(Model.Events[day].Count > 0 ? "busy" : "")">
 			<a href="@Model.Year-@Model.Month.ToString().PadLeft(2, '0')-@day.ToString().PadLeft(2, '0')">
 				<h2>@day</h2>
 				<ul>
-					@if (Model.Events.ContainsKey(day)) {
-						@foreach (EventViewModel item in Model.Events[day]) {
-							<li>@item.Description</li>
-						}
+					@foreach (EventViewModel item in Model.Events[day]) {
+						<li>@item.Description</li>
 					}
 				</ul>
 			</a>
