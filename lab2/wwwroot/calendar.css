@@ -19,7 +19,7 @@ body {
 #mainwrapper.compact {
 	max-width: 30em;
 }
-select, input, textarea {
+input, input[type=text] {
 	font-size: inherit;
 	font-family: inherit;
 }
@@ -49,26 +49,23 @@ input[type=submit], button, a.button {
 	font-weight: inherit;
 	
 	padding: 0.4em;
-	
 	background-color: #E5E5E5;
 	border: none;
+	
+	cursor: pointer;
 }
 input[type=submit].large, button.large, a.button.large {
 	font-size: 1.2em;
 	background-color: #FFFFFF;
 	border-bottom: 5px solid #E5E5E5;
 }
-textarea, input[type=time] {
+input[type=text], input[type=time] {
 	border: none;
-	background: #FFFFFF;
+	background: #EFEFEF;
+	padding: 0.25em;
 	
 	width: 100%;
 	box-sizing: border-box;
-}
-textarea {
-	height: 7em;
-	min-height: 7em;
-	resize: vertical;
 }
 
 main.calendar {
@@ -136,24 +133,16 @@ div.day.busy ul::after {
 }
 
 h1.monthpicker span {
-	position: relative;
 	display: inline-block;
-}
-h1.monthpicker span,
-h1.monthpicker button {
 	vertical-align: middle;
 }
-h1.monthpicker select {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	width: 100%;
-	
-	opacity: 0;
-	z-index: 1;
-	cursor: pointer;
+h1.monthpicker span.buttons {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.3em;
+}
+h1.monthpicker span.buttons > button {
+	margin-right: 0.15em;
 }
 
 ul.events {
@@ -182,8 +171,11 @@ ul.events h2 {
 }
 ul.events p {
 	margin: 0 0.5em;
-	word-break: break-word;
 	flex-grow: 1;
+	
+	word-break: break-all;
+	word-break: break-word;
+	overflow-wrap: anywhere;
 }
 ul.events button:first-of-type {
 	margin-right: 0.5em;
@@ -196,8 +188,13 @@ div.finalbuttons > *:first-child {
 }
 
 main.inputs input,
-main.inputs textarea {
+main.inputs input[type=text] {
 	font-size: 1.5em;
+}
+main.inputs div.inputholder {
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+	padding: 1em;
 }
 main.inputs h2 {
 	margin: 0.2em 0;
@@ -271,12 +268,9 @@ button.circle.accept::before {
 	left: 31.9%;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1150px) {
 	main {
 		padding: 0.25em;
-	}
-	div.day > a, ul.events li, button.large, input[type=submit].large, a.button.large {
-		border-bottom-width: 3px;
 	}
 	header, footer {
 		margin-left: 1em;
@@ -294,6 +288,16 @@ button.circle.accept::before {
 		margin-bottom: 0.5em;
 	}
 }
+@media screen and (max-width: 900px) {
+	div.day > a,
+	ul.events li,
+	button.large,
+	input[type=submit].large,
+	a.button.large,
+	main.inputs div.inputholder	{
+		border-bottom-width: 3px;
+	}
+}
 @media screen and (max-width: 600px) {
 	div.day > a {
 		align-items: center;
@@ -305,6 +309,22 @@ button.circle.accept::before {
 @media screen and (max-width: 500px) {
 	h1 {
 		font-size: 1.5em;
+	}
+	h1.monthpicker {
+		position: relative;
+	}
+	h1.monthpicker span.buttons {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		margin-bottom: 0;
+		
+		flex-direction: row-reverse;
+	}
+	h1.monthpicker span.buttons > button {
+		margin-right: 0;
+		margin-left: 0.15em;
 	}
 }
 @media screen and (max-width: 350px) {

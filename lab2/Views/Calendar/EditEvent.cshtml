@@ -11,11 +11,13 @@
 </header>
 <main class="inputs">
 	<form method="post">
-		<input type="hidden" name="id" value="@Model.Id">
-		<h2>Time</h2>
-		<input type="time" name="time" value="@Model.Time.ToString("HH:mm")">
-		<h2>Description</h2>
-		<textarea name="description">@Model.Description</textarea>
+		<div class="inputholder">
+			<input type="hidden" name="id" value="@Model.Id">
+			<h2>Time</h2>
+			<input type="time" name="time" value="@Model.Time.ToString("HH:mm")">
+			<h2>Description</h2>
+			<input type="text" autocomplete="off" name="description" value="@Model.Description">
+		</div>
 		<div class="finalbuttons">
 			<a href="/@Model.Time.ToString("yyyy-MM-dd")" class="button large">Cancel</a>
 			<button class="large">Apply</button>

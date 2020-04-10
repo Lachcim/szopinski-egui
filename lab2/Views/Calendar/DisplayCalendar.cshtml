@@ -5,30 +5,14 @@
 
 <header>
 	<h1 class="monthpicker">
-		<span>
-			<span id="monthDisplay">@Model.MonthName</span>
-			<select id="month" onchange="changeMonth()">
-				<option value="01" selected="@(Model.Month == 1)">January</option>
-				<option value="02" selected="@(Model.Month == 2)">February</option>
-				<option value="03" selected="@(Model.Month == 3)">March</option>
-				<option value="04" selected="@(Model.Month == 4)">April</option>
-				<option value="05" selected="@(Model.Month == 5)">May</option>
-				<option value="06" selected="@(Model.Month == 6)">June</option>
-				<option value="07" selected="@(Model.Month == 7)">July</option>
-				<option value="08" selected="@(Model.Month == 8)">August</option>
-				<option value="09" selected="@(Model.Month == 9)">September</option>
-				<option value="10" selected="@(Model.Month == 10)">October</option>
-				<option value="11" selected="@(Model.Month == 11)">November</option>
-				<option value="12" selected="@(Model.Month == 12)">December</option>
-			</select>
-			<button class="circle down dropdown"></button>
+		<span class="buttons">
+			<button class="circle down" onclick="changeDate(false)"></button>
+			<button class="circle up" onclick="changeDate(true)"></button>
+			<button id="acceptDate" class="circle accept" onclick="applyDate()" disabled></button>
 		</span>
-		<span>
-			<span id="year">@Model.Year</span>
-			<button class="circle up" onclick="changeYear(true)"></button>
-			<button class="circle down" onclick="changeYear(false)"></button>
-			<button id="acceptDate" class="circle accept" onclick="changeDate()" disabled></button>
-		</span>
+		<input type="hidden" id="month" value="@Model.Month">
+		<span id="monthDisplay">@Model.MonthName</span>
+		<span id="year">@Model.Year</span>
 	</h1>
 </header>
 <main class="calendar">

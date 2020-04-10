@@ -1,5 +1,24 @@
-function changeMonth() {
-	var month = document.getElementById("month").value;
+function changeDate(up) {
+	var month = document.getElementById("month");
+	var monthDisplay = document.getElementById("monthDisplay");
+	var year = document.getElementById("year");
+	var accept = document.getElementById("acceptDate");
+	
+	if (up) {
+		month.value++;
+		if (month.value == 13) {
+			month.value = 1;
+			year.innerText = Number(year.innerText) + 1;
+		}
+	}
+	else {
+		month.value--;
+		if (month.value == 0) {
+			month.value = 12;
+			year.innerText = Number(year.innerText) - 1;
+		}
+	}
+	
 	var monthDict = [
 		"January",
 		"February",
@@ -13,22 +32,13 @@ function changeMonth() {
 		"October",
 		"November",
 		"December"];
-		
-	document.getElementById("monthDisplay").innerText = monthDict[month - 1];
-	document.getElementById("acceptDate").disabled = false;
-}
-function changeYear(up) {
-	var year = parseInt(document.getElementById("year").innerText);
 	
-	if (up) year++;
-	else year--;
-	
-	document.getElementById("year").innerText = year;
-	document.getElementById("acceptDate").disabled = false;
+	monthDisplay.innerText = monthDict[month.value - 1];
+	accept.disabled = false;
 }
-function changeDate() {
+function applyDate() {
 	var month = document.getElementById("month").value;
 	var year = document.getElementById("year").innerText;
 	
-	window.location = year + "-" + month;
+	window.location = year + "-" + ("0" + month).toString().substr(-2);
 }
