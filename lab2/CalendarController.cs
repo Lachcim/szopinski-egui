@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Diagnostics;
 using SzopinskiCalendar.Models;
 
 namespace SzopinskiCalendar.Controllers {
@@ -105,6 +106,18 @@ namespace SzopinskiCalendar.Controllers {
                 DataHandler.AddEvent(newEvent);
                 return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
             }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult ShowError()
+        {
+            IExceptionHandlerFeature context = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            
+            HttpContext.Response.StatusCode = context.Error is ArgumentException ? 400 : 500;
+            ViewBag.ErrorType = context.Error.GetType().Name;
+            ViewBag.ErrorMessage = context.Error.Message;
+
+            return View();
         }
 
         private string Pad(int input) {

@@ -1,0 +1,24 @@
+@{
+	ViewData["Title"] = "Error " + Context.Response.StatusCode;
+	ViewData["Compact"] = true;
+}
+
+<header>
+	<h1>
+		Something went wrong
+	</h1>
+</header>
+<main class="error">
+    <p>
+        @ViewBag.ErrorType: @ViewBag.ErrorMessage
+    </p>
+    <p>
+        Response status code @Context.Response.StatusCode.
+    </p>
+    <p>
+        If you believe this is a mistake, please contact the developer.
+    </p>
+    <div class="finalbuttons">
+        <button class="large" onclick="window.history.back()">Back</button>
+    </div>
+</main>

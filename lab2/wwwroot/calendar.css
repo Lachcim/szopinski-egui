@@ -204,6 +204,19 @@ main.inputs h2:first-of-type {
 	margin-top: 0;
 }
 
+main.error {
+	background-color: transparent;
+	padding: 0;
+}
+main.error div.finalbuttons {
+	text-align: right;
+	padding: 0.5em;
+	background-color: #EFEFEF;
+}
+main.error div.finalbuttons > *:first-child {
+	float: none;
+}
+
 button.circle {
 	font-size: inherit;
 	background: transparent;

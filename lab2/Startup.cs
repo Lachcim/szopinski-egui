@@ -22,7 +22,7 @@ namespace SzopinskiCalendar
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            app.UseExceptionHandler("/error");
             app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -32,6 +32,7 @@ namespace SzopinskiCalendar
                 endpoints.MapControllerRoute("date", "{year}-{month}-{day}", new { controller="Calendar", action="DisplayDate" });
                 endpoints.MapControllerRoute("event", "{year}-{month}-{day}/new", new { controller="Calendar", action="AddEvent" });
                 endpoints.MapControllerRoute("event", "edit/{id}", new { controller="Calendar", action="EditEvent" });
+                endpoints.MapControllerRoute("error", "error", new { controller="Calendar", action="ShowError" });
             });
         }
     }
