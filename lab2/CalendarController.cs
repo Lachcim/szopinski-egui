@@ -22,8 +22,8 @@ namespace SzopinskiCalendar.Controllers {
             CalendarViewModel data = new CalendarViewModel();
             data.Year = year;
             data.Month = month;
-            data.MonthName = new CultureInfo("en-US").DateTimeFormat.MonthNames[month - 1];
             data.StartWeekday = ((int)new DateTime(year, month, 1).DayOfWeek + 6) % 7;
+            data.MonthName = new CultureInfo("en-US").DateTimeFormat.MonthNames[month - 1];
             data.DayCount = DateTime.DaysInMonth(year, month);
             data.Events = DataHandler.GetEventDictionary(year, month);
 
@@ -37,7 +37,7 @@ namespace SzopinskiCalendar.Controllers {
             data.Year = year;
             data.Month = month;
             data.Day = day;
-            data.Events = DataHandler.GetEvents(year, month, day);
+            data.Events = DataHandler.GetEvents(new DateTime(year, month, day));
 
             return View(data);
         }
@@ -56,7 +56,7 @@ namespace SzopinskiCalendar.Controllers {
             else if (action == "new")
                 return RedirectToAction("AddEvent", new { year=year, month=Pad(month), day=Pad(day) });
             else
-                throw new ArgumentException("Invalid action");
+                throw new ArgumentException("Invalid action.");
         }
 
         [Route("{year:int}-{month:int}-{day:int}/new")]
@@ -90,7 +90,7 @@ namespace SzopinskiCalendar.Controllers {
                 minute = Convert.ToInt32(time.Substring(3, 2));
             }
             catch (Exception) {
-                throw new ArgumentException("Invalid time");
+                throw new ArgumentException("Invalid time.");
             }
             
             if (id != -1)

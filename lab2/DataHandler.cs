@@ -35,7 +35,7 @@ namespace SzopinskiCalendar
                 }
             }
             catch (Exception) {
-                throw new IOException("Error reading calendar data");
+                throw new IOException("Error reading calendar data.");
             }
 
             output.Sort(delegate(EventViewModel a, EventViewModel b)
@@ -46,9 +46,9 @@ namespace SzopinskiCalendar
             return output;
         }
 
-        public static List<EventViewModel> GetEvents(int year, int month, int day)
+        public static List<EventViewModel> GetEvents(DateTime date)
         {
-            return GetEvents().Where(ev => ev.Time.Year == year && ev.Time.Month == month && ev.Time.Day == day).ToList();
+            return GetEvents().Where(ev => ev.Time.Date == date.Date).ToList();
         }
 
         public static EventViewModel GetEvent(int id)
@@ -57,7 +57,7 @@ namespace SzopinskiCalendar
                 if (ev.Id == id)
                     return ev;
 
-            throw new ArgumentException("No event with the given id");
+            throw new ArgumentException("No event with the given id.");
         }
 
         public static Dictionary<int, List<EventViewModel>> GetEventDictionary(int year, int month)
@@ -85,7 +85,7 @@ namespace SzopinskiCalendar
                     return;
                 }
 
-            throw new ArgumentException("No event with the given id");
+            throw new ArgumentException("No event with the given id.");
         }
 
         public static void SaveEvents(List<EventViewModel> events)
@@ -103,7 +103,7 @@ namespace SzopinskiCalendar
             }
             catch (Exception)
             {
-                throw new IOException("Error writing calendar data");
+                throw new IOException("Error writing calendar data.");
             }
         }
 
@@ -125,7 +125,7 @@ namespace SzopinskiCalendar
                     return events[i].Time;
                 }
 
-            throw new ArgumentException("No event with the given id");
+            throw new ArgumentException("No event with the given id.");
         }
 
         public static int AddEvent(EventViewModel newEvent)
