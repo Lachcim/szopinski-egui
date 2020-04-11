@@ -210,62 +210,16 @@ button.circle {
 	padding: 0;
 	
 	display: inline-block;
-	height: 0.7em;
-	width: 0.7em;
+	height: 1em;
+	width: 1em;
 	min-width: 22px;
 	min-height: 22px;
 	box-sizing: border-box;
 	
-	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.67);
-	border-radius: 50%;
-	
 	cursor: pointer;
-}
-button.circle:active {
-	background-color: rgba(0, 0, 0, 0.67);
-}
-button.circle:active::before {
-	border-color: #FFFFFF;
 }
 button.circle:disabled {
 	display: none;
-}
-button.circle::before {
-	content: "";
-	display: block;
-	
-	border-right: 1px solid rgba(0, 0, 0, 0.67);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.67);
-	
-	position: absolute;
-	transform: rotate(45deg);
-}
-button.circle.up::before {
-	transform: rotate(225deg);
-	
-	width: 0.2em;
-	height: 0.2em;
-	min-width: 6px;
-	min-height: 6px;
-	top: 36%;
-	left: 31%;
-}
-button.circle.down::before {
-	width: 0.2em;
-	height: 0.2em;
-	min-width: 6px;
-	min-height: 6px;
-	top: 22%;
-	left: 31%;
-}
-button.circle.accept::before {
-	width: 0.2em;
-	height: 0.3em;
-	min-width: 6px;
-	min-height: 9px;
-	top: 13%;
-	left: 31.9%;
 }
 
 @media screen and (max-width: 1150px) {
@@ -308,7 +262,7 @@ button.circle.accept::before {
 }
 @media screen and (max-width: 500px) {
 	h1 {
-		font-size: 1.5em;
+		font-size: 1.8em;
 	}
 	h1.monthpicker {
 		position: relative;
