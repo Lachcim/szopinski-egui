@@ -74,6 +74,7 @@ input[type=text], input[type=time] {
 main.calendar {
 	display: flex;
 	flex-wrap: wrap;
+	position: relative;
 }
 div.day {	
 	width: 14.285714%;
@@ -133,6 +134,33 @@ div.day.busy > a {
 }
 div.day.busy ul::after {
 	background: linear-gradient(to bottom, transparent, #C6D8EE);
+}
+
+a.navigation {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 10em;
+	
+	display: flex;
+	align-items: center;
+	
+	z-index: 2;
+}
+a.navigation.previous {
+	right: 100%;
+	justify-content: flex-start;
+}
+a.navigation.next {
+	left: 100%;
+	justify-content: flex-end;
+}
+a.navigation img {
+	max-width: 100%;
+	max-height: 100%;
+}
+a.navigation img.alternative {
+	display: none;
 }
 
 ul.events {
@@ -206,6 +234,58 @@ main.error div.finalbuttons > *:first-child {
 	float: none;
 }
 
+@media screen and (max-width: 1460px) and (max-aspect-ratio: 4/3) {
+	a.navigation {
+		position: fixed;
+		height: 4em;
+		width: auto;
+	}
+	a.navigation.previous {
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: unset;
+		justify-content: center;
+	}
+	a.navigation.next {
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: unset;
+		justify-content: center;
+	}
+	a.navigation img.default {
+		display: none;
+	}
+	a.navigation img.alternative {
+		display: inline-block;
+	}
+}
+@media screen and (max-width: 1460px) and (min-aspect-ratio: 4/3) {
+	a.navigation {
+		position: fixed;
+		bottom: 0.5em;
+		left: 0.5em;
+		right: unset;
+		top: unset;
+		
+		width: 4em;
+		height: 4em;
+		
+		background: #EFEFEF;
+		border-radius: 50%;
+	}
+	a.navigation.previous {
+		justify-content: center;
+	}
+	a.navigation.next {
+		left: 5em;
+		justify-content: center;
+	}
+	a.navigation img {
+		height: 50%;
+	}
+}
 @media screen and (max-width: 1150px) {
 	main {
 		padding: 0.25em;
