@@ -113,6 +113,9 @@ namespace SzopinskiCalendar.Controllers {
         {
             IExceptionHandlerFeature context = HttpContext.Features.Get<IExceptionHandlerFeature>();
             
+            if (context == null)
+                return RedirectToAction("DisplayCalendar");
+
             HttpContext.Response.StatusCode = context.Error is ArgumentException ? 400 : 500;
             ViewBag.ErrorType = context.Error.GetType().Name;
             ViewBag.ErrorMessage = context.Error.Message;
