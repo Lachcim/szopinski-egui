@@ -159,7 +159,8 @@ a.navigation img {
 	max-width: 100%;
 	max-height: 100%;
 }
-a.navigation img.alternative {
+a.navigation img.alternative,
+a.navigation img.alternative2 {
 	display: none;
 }
 
@@ -272,7 +273,7 @@ main.error div.finalbuttons > *:first-child {
 		width: 4em;
 		height: 4em;
 		
-		background: #EFEFEF;
+		background: #BFBFBF;
 		border-radius: 50%;
 	}
 	a.navigation.previous {
@@ -284,6 +285,12 @@ main.error div.finalbuttons > *:first-child {
 	}
 	a.navigation img {
 		height: 50%;
+	}
+	a.navigation img.default {
+		display: none;
+	}
+	a.navigation img.alternative2 {
+		display: inline-block;
 	}
 }
 @media screen and (max-width: 1150px) {
