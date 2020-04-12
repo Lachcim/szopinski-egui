@@ -44,19 +44,13 @@ namespace SzopinskiCalendar.Controllers {
 
         [HttpPost]
         [Route("{year:int}-{month:int}-{day:int}")]
-        public IActionResult ModifyDate(string action, int year, int month, int day, int id=0)
+        public IActionResult DeleteEvent(string action, int year, int month, int day, int id=0)
         {
-            if (action == "edit")
-                return RedirectToAction("EditEvent", new { id=id });
-            else if (action == "delete")
-            {
-                DataHandler.DeleteEvent(id);
-                return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
-            }
-            else if (action == "new")
-                return RedirectToAction("AddEvent", new { year=year, month=Pad(month), day=Pad(day) });
-            else
+            if (action != "delete")
                 throw new ArgumentException("Invalid action.");
+            
+            DataHandler.DeleteEvent(id);
+            return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
         }
 
         [Route("{year:int}-{month:int}-{day:int}/new")]

@@ -7,5 +7,17 @@ namespace SzopinskiCalendar.Models {
         public int Month;
         public int Day;
         public List<EventViewModel> Events;
+
+        public string DateString
+        {
+            get
+            {
+                return Year
+                    + "-"
+                    + Month.ToString().PadLeft(2, '0')
+                    + "-"
+                    + Day.ToString().PadLeft(2, '0');
+            }
+        }
     }
 }

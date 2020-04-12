@@ -47,7 +47,10 @@ input[type=submit], button, a.button {
 	font-size: 0.9em;
 	color: rgba(0, 0, 0, 0.8);
 	font-weight: inherit;
+	text-align: center;
 	
+	display: inline-block;
+	box-sizing: border-box;
 	padding: 0.4em;
 	background-color: #E5E5E5;
 	border: none;
@@ -177,8 +180,8 @@ ul.events p {
 	word-break: break-word;
 	overflow-wrap: anywhere;
 }
-ul.events button:first-of-type {
-	margin-right: 0.5em;
+ul.events form.actions > *:not(:first-child) {
+	margin-left: 0.5em;
 }
 div.finalbuttons {
 	margin-top: 5px;
@@ -246,12 +249,13 @@ button.circle:disabled {
 		flex-direction: column;
 		justify-content: center;
 	}
-	ul.events button {
+	ul.events button,
+	ul.events a.button {
 		width: 100%;
 	}
-	ul.events button:first-of-type {
-		margin-right: 0;
-		margin-bottom: 0.5em;
+	ul.events form.actions > *:not(:first-child) {
+		margin-left: 0;
+		margin-top: 0.5em;
 	}
 }
 @media screen and (max-width: 900px) {

@@ -1,16 +1,12 @@
 ﻿@model DateViewModel
 @{
-	ViewData["Title"] = Model.Year
-						+ "-"
-						+ Model.Month.ToString().PadLeft(2, '0')
-						+ "-"
-						+ Model.Day.ToString().PadLeft(2, '0');
+	ViewData["Title"] = @Model.DateString;
 	ViewData["Compact"] = true;
 }
 
 <header>
 	<h1>
-		@ViewData["Title"]
+		@Model.DateString
 	</h1>
 </header>
 <main>
@@ -20,18 +16,15 @@
 				<h2>@item.Time.ToString("HH:mm")</h2>
 				<p>@item.Description</p>
 				<form class="actions" method="post">
-					<input type="hidden" name="id" value="@item.Id">
-					<button name="action" value="edit">Edit</button>
+					<a href="edit/@item.Id" class="button">Edit</a>
 					<button name="action" value="delete">Delete</button>
+					<input type="hidden" name="id" value="@item.Id">
 				</form>
 			</li>
 		}
 	</ul>
 	<div class="finalbuttons">
 		<a href="@Model.Year-@Model.Month.ToString().PadLeft(2, '0')" class="button large">Back</a>
-		<form method="post">
-			<input type="hidden" name="action" value="new">
-			<button class="large">Add new</button>
-		</form>
+		<a href="@Model.DateString/new" class="button large">Add new</a>
 	</div>
 </main>
