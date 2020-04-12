@@ -42,7 +42,7 @@ a {
 input[type=number] {
 	-moz-appearance: textfield;
 }
-input[type=submit], button, a.button {
+button, a.button {
 	font-family: inherit;
 	font-size: 0.9em;
 	color: rgba(0, 0, 0, 0.8);
@@ -57,7 +57,7 @@ input[type=submit], button, a.button {
 	
 	cursor: pointer;
 }
-input[type=submit].large, button.large, a.button.large {
+button.large, a.button.large {
 	font-size: 1.2em;
 	background-color: #FFFFFF;
 	border-bottom: 5px solid #E5E5E5;
@@ -135,19 +135,6 @@ div.day.busy ul::after {
 	background: linear-gradient(to bottom, transparent, #C6D8EE);
 }
 
-h1.monthpicker span {
-	display: inline-block;
-	vertical-align: middle;
-}
-h1.monthpicker span.buttons {
-	display: flex;
-	align-items: center;
-	margin-bottom: 0.3em;
-}
-h1.monthpicker span.buttons > button {
-	margin-right: 0.15em;
-}
-
 ul.events {
 	list-style-type: none;
 	padding: 0;
@@ -219,24 +206,6 @@ main.error div.finalbuttons > *:first-child {
 	float: none;
 }
 
-button.circle {
-	font-size: inherit;
-	background: transparent;
-	padding: 0;
-	
-	display: inline-block;
-	height: 1em;
-	width: 1em;
-	min-width: 22px;
-	min-height: 22px;
-	box-sizing: border-box;
-	
-	cursor: pointer;
-}
-button.circle:disabled {
-	display: none;
-}
-
 @media screen and (max-width: 1150px) {
 	main {
 		padding: 0.25em;
@@ -262,7 +231,6 @@ button.circle:disabled {
 	div.day > a,
 	ul.events li,
 	button.large,
-	input[type=submit].large,
 	a.button.large,
 	main.inputs div.inputholder	{
 		border-bottom-width: 3px;
@@ -279,22 +247,6 @@ button.circle:disabled {
 @media screen and (max-width: 500px) {
 	h1 {
 		font-size: 1.8em;
-	}
-	h1.monthpicker {
-		position: relative;
-	}
-	h1.monthpicker span.buttons {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		margin-bottom: 0;
-		
-		flex-direction: row-reverse;
-	}
-	h1.monthpicker span.buttons > button {
-		margin-right: 0;
-		margin-left: 0.15em;
 	}
 }
 @media screen and (max-width: 350px) {

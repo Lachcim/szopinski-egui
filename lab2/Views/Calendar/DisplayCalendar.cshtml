@@ -5,12 +5,6 @@
 
 <header>
 	<h1 class="monthpicker">
-		<span class="buttons">
-			<button class="circle down" onclick="changeDate(false)"><img src="down.svg"></button>
-			<button class="circle up" onclick="changeDate(true)"><img src="up.svg"></button>
-			<button id="acceptDate" class="circle accept" onclick="applyDate()" disabled><img src="accept.svg"></button>
-		</span>
-		<input type="hidden" id="month" value="@Model.Month">
 		<span id="monthDisplay">@Model.MonthName</span>
 		<span id="year">@Model.Year</span>
 	</h1>
