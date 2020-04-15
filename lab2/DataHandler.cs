@@ -97,7 +97,7 @@ namespace SzopinskiCalendar
                     foreach (EventViewModel ev in events) {
                         writer.WriteLine(ev.Id);
                         writer.WriteLine(ev.Time.ToString("yyyy-MM-dd HH:mm"));
-                        writer.WriteLine(ev.Description);
+                        writer.WriteLine(ev.Description.Replace("\r", "").Replace('\n', ' '));
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace SzopinskiCalendar
                     int day = events[i].Time.Day;
                     
                     events[i].Time = new DateTime(year, month, day, hour, minute, 0);
-                    events[i].Description = description;
+                    events[i].Description = description.Replace("\r", "").Replace('\n', ' ');
 
                     SaveEvents(events);
                     return events[i].Time;
@@ -135,7 +135,7 @@ namespace SzopinskiCalendar
 
             foreach (EventViewModel ev in events)
                 if (ev.Id > maxId)
-                    maxId = ev.Id + 1;
+                    maxId = ev.Id;
 
             newEvent.Id = maxId + 1;
             events.Add(newEvent);
