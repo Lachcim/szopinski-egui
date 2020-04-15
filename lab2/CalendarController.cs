@@ -89,13 +89,13 @@ namespace SzopinskiCalendar.Controllers {
             
             if (id != -1)
             {
-                DateTime eventTime = DataHandler.UpdateEvent(id, hour, minute, description);
+                DateTime eventTime = DataHandler.UpdateEvent(id, hour, minute, description ?? "");
                 return RedirectToAction("DisplayDate", new { year=eventTime.Year, month=Pad(eventTime.Month), day=Pad(eventTime.Day) });
             }
             else
             {
                 EventViewModel newEvent = new EventViewModel(year, month, day, hour, minute);
-                newEvent.Description = description;
+                newEvent.Description = description ?? "";
                 
                 DataHandler.AddEvent(newEvent);
                 return RedirectToAction("DisplayDate", new { year=year, month=Pad(month), day=Pad(day) });
