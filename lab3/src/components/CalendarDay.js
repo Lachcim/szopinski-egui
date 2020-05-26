@@ -9,9 +9,14 @@ function CalendarDay(props) {
 	const events = props.month.days[props.date];
 	const listItems = events.map(event => (<li key={event.id}>{event.description}</li>));
 	
+	function handleClick(e) {
+		e.preventDefault();
+		props.onPick(props.date);
+	}
+	
 	return (
 		<div className={events.length > 0 ? 'day busy' : 'day'}>
-			<a href="#">
+			<a href="#" onClick={handleClick}>
 				<h2>{props.date}</h2>
 				<ul>
 					{listItems}

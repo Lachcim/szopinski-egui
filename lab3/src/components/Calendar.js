@@ -14,17 +14,27 @@ class Calendar extends React.Component {
 		else
 			this.state.month = new Month();
 		
+		this.state.onDayPick = props.onDayPick;
+		
 		this.showPrevMonth = this.showPrevMonth.bind(this);
 		this.showNextMonth = this.showNextMonth.bind(this);
+		this.handleDayPick = this.handleDayPick.bind(this);
 	}
 	
 	showPrevMonth(e) {
-		e.preventDefault();		
+		if (e) e.preventDefault();		
 		this.setState(state => ({ month: state.month.getPrev() }));
 	}
 	showNextMonth(e) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 		this.setState(state => ({ month: state.month.getNext() }));
+	}
+	
+	handleDayPick(date) {
+		if (!this.state.onDayPick) return;
+		
+		const fullDate = new Date(this.state.month.year, this.state.month.month - 1, date);
+		this.state.onDayPick(fullDate, this.state.month.days[date]);
 	}
 	
 	render() {
@@ -36,7 +46,7 @@ class Calendar extends React.Component {
 		//compute collection of day components
 		let days = [];
 		for (let i = 1; i <= this.state.month.daysInMonth; i++)
-			days.push(<CalendarDay month={this.state.month} date={i} key={i}/>);
+			days.push(<CalendarDay month={this.state.month} date={i} key={i} onPick={this.handleDayPick}/>);
 		
 		return (
 			<>
