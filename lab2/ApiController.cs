@@ -82,13 +82,46 @@ namespace SzopinskiCalendar.Controllers {
         
         [HttpPost]
         [Route("api/date/{year:int}-{month:int}-{day:int}")]
-        public ActionResult ManageEvent(int year, int month, int day) {
-            return Json(new {});
+        public ActionResult ManageEvent(string time, string description, int year, int month, int day) {
+            int hour, minute;
+            
+            try {
+                hour = Convert.ToInt32(time.Substring(0, 2));
+                minute = Convert.ToInt32(time.Substring(3, 2));
+            }
+            catch (Exception) {
+                throw new ArgumentException("Invalid time.");
+            }
+            
+            EventViewModel newEvent = new EventViewModel(year, month, day, hour, minute);
+            newEvent.Description = description ?? "";
+            
+            int newEventId;
+            try { newEventId = DataHandler.AddEvent(newEvent); }
+            catch (Exception e) { return ShowError(e); }
+            
+            return Json(new {
+                status="ok",
+                id=newEventId
+            });
         }
         
         [HttpPost]
-        public ActionResult ManageEvent(int id) {
-            return Json(new {});
+        public ActionResult ManageEvent(int id, string time, string description) {
+            int hour, minute;
+            
+            try {
+                hour = Convert.ToInt32(time.Substring(0, 2));
+                minute = Convert.ToInt32(time.Substring(3, 2));
+            }
+            catch (Exception) {
+                throw new ArgumentException("Invalid time.");
+            }
+            
+            try { DataHandler.UpdateEvent(id, hour, minute, description ?? ""); }
+            catch (Exception e) { return ShowError(e); }
+            
+            return Json(new {status="ok"});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
