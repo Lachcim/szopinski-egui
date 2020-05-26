@@ -54,7 +54,30 @@ class Month {
 		];
 		
 		return MONTH_NAMES[this.month - 1] + ' ' + this.year;
-	}	
+	}
+	
+	getPrev() {
+		let month = this.month - 1;
+		let year = this.year;
+		
+		if (month == 0) {
+			month = 12;
+			year--;
+		}
+		
+		return new Month(year, month);
+	}
+	getNext() {
+		let month = this.month + 1;
+		let year = this.year;
+		
+		if (month == 13) {
+			month = 1;
+			year++;
+		}
+		
+		return new Month(year, month);
+	}
 }
 
 export default Month;

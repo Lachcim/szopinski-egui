@@ -13,6 +13,18 @@ class Calendar extends React.Component {
 			this.state.month = new Month(props.year, props.month);
 		else
 			this.state.month = new Month();
+		
+		this.showPrevMonth = this.showPrevMonth.bind(this);
+		this.showNextMonth = this.showNextMonth.bind(this);
+	}
+	
+	showPrevMonth(e) {
+		e.preventDefault();		
+		this.setState(state => ({ month: state.month.getPrev() }));
+	}
+	showNextMonth(e) {
+		e.preventDefault();
+		this.setState(state => ({ month: state.month.getNext() }));
 	}
 	
 	render() {
@@ -32,12 +44,12 @@ class Calendar extends React.Component {
 					<h1>{this.state.month.formatName()}</h1>
 				</header>
 				<main className="calendar">
-						<a className="navigation previous" href="#">
+						<a className="navigation previous" href="#" onClick={this.showPrevMonth}>
 							<img className="default" src="left.svg"/>
 							<img className="alternative" src="up.svg"/>
 							<img className="alternative2" src="leftbright.svg"/>
 						</a>
-						<a className="navigation next" href="#">
+						<a className="navigation next" href="#" onClick={this.showNextMonth}>
 							<img className="default" src="right.svg"/>
 							<img className="alternative" src="down.svg"/>
 							<img className="alternative2" src="rightbright.svg"/>
