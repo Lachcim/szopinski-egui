@@ -1,3 +1,5 @@
+import Event from './Event';
+
 class Month {
 	constructor(year, month) {
 		//use today's month by default
@@ -26,6 +28,20 @@ class Month {
 			month: { writable: false },
 			days: { writable: false }
 		});
+	}
+	
+	static fromJSON(json) {
+		let output = new Month(json.year, json.month);
+		
+		for (let i = 1; i < json.days.length; i++)
+			for (let j = 0; j < json.days[i].length; j++) {
+				const id = json.days[i][j].id;
+				const description = json.days[i][j].description;
+				
+				output.days[i].push(new Event(id, new Date(0), description));
+			}
+		
+		return output;
 	}
 	
 	get daysInMonth() {

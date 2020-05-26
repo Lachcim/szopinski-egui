@@ -20,17 +20,33 @@ class Calendar extends React.Component {
 		this.showPrevMonth = this.showPrevMonth.bind(this);
 		this.showNextMonth = this.showNextMonth.bind(this);
 		this.handleDayPick = this.handleDayPick.bind(this);
+		this.fetchData = this.fetchData.bind(this);
+	}
+	
+	componentDidMount() {
+		this.fetchData();
 	}
 	
 	showPrevMonth(e) {
 		if (e) e.preventDefault();
 		
-		this.setState(state => ({ month: state.month.getPrev() }));
+		this.setState(state => ({ month: state.month.getPrev() }), this.fetchData);
 	}
 	showNextMonth(e) {
 		if (e) e.preventDefault();
 		
-		this.setState(state => ({ month: state.month.getNext() }));
+		this.setState(state => ({ month: state.month.getNext() }), this.fetchData);
+	}
+	fetchData() {
+		fetch('/api/month/' + this.state.month.year + '-' + this.state.month.month)
+		.then(response => response.json())
+		.then(data => {
+			this.setState({ month: Month.fromJSON(data) });
+		})
+		.catch(error => {
+			alert("Error loading calendar data!");
+			console.error(error);
+		});
 	}
 	
 	handleDayPick(date) {
