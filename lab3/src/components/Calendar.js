@@ -1,4 +1,5 @@
 import React from 'react';
+import MainWrapper from './MainWrapper';
 import CalendarDay from './CalendarDay';
 import Month from '../datatypes/Month';
 
@@ -34,7 +35,7 @@ class Calendar extends React.Component {
 		if (!this.state.onDayPick) return;
 		
 		const fullDate = new Date(this.state.month.year, this.state.month.month - 1, date);
-		this.state.onDayPick(fullDate, this.state.month.days[date]);
+		this.state.onDayPick(fullDate);
 	}
 	
 	render() {
@@ -49,7 +50,7 @@ class Calendar extends React.Component {
 			days.push(<CalendarDay month={this.state.month} date={i} key={i} onPick={this.handleDayPick}/>);
 		
 		return (
-			<>
+			<MainWrapper>
 				<header>
 					<h1>{this.state.month.formatName()}</h1>
 				</header>
@@ -68,7 +69,7 @@ class Calendar extends React.Component {
 						{fillerDays}
 						{days}
 				</main>
-			</>
+			</MainWrapper>
 		);
 	}
 }
