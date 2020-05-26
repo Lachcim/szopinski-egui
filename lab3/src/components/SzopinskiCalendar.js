@@ -1,9 +1,12 @@
 import React from 'react';
+import MainWrapper from './MainWrapper';
 
 class SzopinskiCalendar extends React.Component {
 	render() {
 		return (
-			<p>Hello world!</p>
+			<MainWrapper>
+				<p>Hello world!</p>
+			</MainWrapper>
 		);	
 	}
 }
