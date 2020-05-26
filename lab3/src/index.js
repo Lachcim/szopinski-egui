@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SzopinskiCalendar from './SzopinskiCalendar';
+import SzopinskiCalendar from './components/SzopinskiCalendar';
 
 ReactDOM.render(
 	<React.StrictMode>
