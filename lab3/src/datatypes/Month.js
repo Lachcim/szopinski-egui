@@ -32,11 +32,29 @@ class Month {
 		//get the date of the zeroth day of the next month (0 indexed)
 		return new Date(this.year, this.month, 0).getDate();
 	}
-	
 	get startsOn() {
 		//index days starting at Monday
 		return (new Date(this.year, this.month - 1, 1).getDay() + 6) % 7;
 	}
+	
+	formatName() {
+		const MONTH_NAMES = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+		
+		return MONTH_NAMES[this.month - 1] + ' ' + this.year;
+	}	
 }
 
 export default Month;
