@@ -7,20 +7,27 @@ class DayEditor extends React.Component {
 		
 		this.state = {
 			day: props.day,
-			onClose: props.onClose
+			onClose: props.onClose,
+			onEditEvent: props.onEditEvent
 		};
 		
 		this.close = this.close.bind(this);
 		this.addEvent = this.addEvent.bind(this);
+		this.editEvent = this.editEvent.bind(this);
 	}
 	
 	close(e) {
 		if (e) e.preventDefault();
+		if (!this.state.onClose) return;
+		
 		this.state.onClose(this.state.day.getFullYear(), this.state.day.getMonth() + 1);
 	}
 	addEvent(e) {
 		if (e) e.preventDefault();
-		this.state.onAddEvent(this.state.day);
+		if (this.state.onEditEvent) this.state.onEditEvent(null, this.state.day);
+	}
+	editEvent(id) {
+		if (this.state.onEditEvent) this.state.onEditEvent(id, this.state.day);
 	}
 	
 	render() {

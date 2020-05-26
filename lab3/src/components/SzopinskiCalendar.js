@@ -1,6 +1,7 @@
 import React from 'react';
 import Calendar from './Calendar';
 import DayEditor from './DayEditor';
+import EventEditor from './EventEditor';
 
 class SzopinskiCalendar extends React.Component {
 	constructor(props) {
@@ -12,6 +13,7 @@ class SzopinskiCalendar extends React.Component {
 		
 		this.showCalendar = this.showCalendar.bind(this);
 		this.showDayEditor = this.showDayEditor.bind(this);
+		this.showEventEditor = this.showEventEditor.bind(this);
 	}
 	
 	componentDidMount() {
@@ -23,9 +25,14 @@ class SzopinskiCalendar extends React.Component {
 			activeComponent: (<Calendar year={year} month={month} onDayPick={this.showDayEditor}/>)
 		});
 	}
-	showDayEditor(day, events) {
+	showDayEditor(day) {
 		this.setState({
-			activeComponent: (<DayEditor day={day} onClose={this.showCalendar}/>)
+			activeComponent: (<DayEditor day={day} onClose={this.showCalendar} onEditEvent={this.showEventEditor}/>)
+		});
+	}
+	showEventEditor(id, day) {
+		this.setState({
+			activeComponent: (<EventEditor id={id} day={day} onClose={this.showDayEditor}/>)
 		});
 	}
 	

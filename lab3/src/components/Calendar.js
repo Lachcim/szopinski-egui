@@ -23,11 +23,13 @@ class Calendar extends React.Component {
 	}
 	
 	showPrevMonth(e) {
-		if (e) e.preventDefault();		
+		if (e) e.preventDefault();
+		
 		this.setState(state => ({ month: state.month.getPrev() }));
 	}
 	showNextMonth(e) {
 		if (e) e.preventDefault();
+		
 		this.setState(state => ({ month: state.month.getNext() }));
 	}
 	
