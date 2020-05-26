@@ -1,5 +1,7 @@
 import React from 'react';
 import MainWrapper from './MainWrapper';
+import CalendarEvent from './CalendarEvent';
+import Event from '../datatypes/Event';
 
 class DayEditor extends React.Component {
 	constructor(props) {
@@ -7,6 +9,7 @@ class DayEditor extends React.Component {
 		
 		this.state = {
 			day: props.day,
+			dayEvents: [],
 			onClose: props.onClose,
 			onEditEvent: props.onEditEvent
 		};
@@ -14,6 +17,10 @@ class DayEditor extends React.Component {
 		this.close = this.close.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.editEvent = this.editEvent.bind(this);
+	}
+	
+	componentDidMount() {
+		this.fetchData();
 	}
 	
 	close(e) {
@@ -29,13 +36,39 @@ class DayEditor extends React.Component {
 	editEvent(id) {
 		if (this.state.onEditEvent) this.state.onEditEvent(id, this.state.day);
 	}
+	fetchData() {
+		const year = this.state.day.getFullYear();
+		const month = this.state.day.getMonth() + 1;
+		const date = this.state.day.getDate();
+		
+		fetch('/api/date/' + year + '-' + month + '-' + date)
+			.then(response => response.json())
+			.then(data => {
+				const dayEvents = [];
+				
+				for (let i = 0; i < data.events.length; i++) {
+					const id = data.events[i].id;
+					const date = new Date(data.events[i].time);
+					const desc = data.events[i].description;
+					
+					dayEvents.push(new Event(id, date, desc));
+				}
+				
+				this.setState({ dayEvents });
+			})
+			.catch(error => {
+				alert("Error loading day data!");
+				console.error(error);
+			});
+	}
 	
 	render() {
-		let displayDate = this.state.day.getFullYear() +
+		const displayDate = this.state.day.getFullYear() +
 			'-' +
 			('0' + (this.state.day.getMonth() + 1)).substr(-2) +
 			'-' +
 			('0' + this.state.day.getDate()).substr(-2);
+		const eventItems = this.state.dayEvents.map(ev => (<CalendarEvent data={ev} key={ev.id}/>));
 		
 		return (
 			<MainWrapper compact>
@@ -44,7 +77,7 @@ class DayEditor extends React.Component {
 				</header>
 				<main>
 					<ul className="events">
-						
+						{eventItems}
 					</ul>
 					<div className="finalbuttons">
 						<a href="#" className="button large" onClick={this.close}>Back</a>
