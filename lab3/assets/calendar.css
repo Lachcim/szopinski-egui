@@ -1,0 +1,345 @@
+html, body {
+	height: 100%;
+	margin: 0;
+}
+body {
+	font-family: Roboto, sans-serif;
+	font-weight: 300;
+}
+#root {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+#mainwrapper {
+	width: 100%;
+	max-width: 70em;
+	max-height: 100%;
+}
+#mainwrapper.compact {
+	max-width: 30em;
+}
+input, input[type=text] {
+	font-size: inherit;
+	font-family: inherit;
+}
+main {
+	padding: 0.5em;
+	background-color: #EFEFEF;
+	border-radius: 3px;
+	
+	width: 100%;
+	box-sizing: border-box;
+}
+footer {
+	text-align: right;
+	padding: 0.1px;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+input[type=number] {
+	-moz-appearance: textfield;
+}
+button, a.button {
+	font-family: inherit;
+	font-size: 0.9em;
+	color: rgba(0, 0, 0, 0.8);
+	font-weight: inherit;
+	text-align: center;
+	
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0.4em;
+	background-color: #E5E5E5;
+	border: none;
+	
+	cursor: pointer;
+}
+button.large, a.button.large {
+	font-size: 1.2em;
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+}
+input[type=text], input[type=time] {
+	border: none;
+	background: #EFEFEF;
+	padding: 0.25em;
+	
+	width: 100%;
+	box-sizing: border-box;
+}
+
+main.calendar {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+div.day {	
+	width: 14.285714%;
+	padding-top: 11.428571%;
+	
+	position: relative;
+}
+div.day > a {
+	position: absolute;
+	left: 5%;
+	right: 5%;
+	top: 6.25%;
+	bottom: 6.25%;
+	
+	display: flex;
+	flex-direction: row-reverse;
+	
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+	padding: 0.5em;
+}
+div.day h2 {
+	margin: 0;
+}
+div.day ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	
+	color: rgba(0, 0, 0, 0.6);
+}
+div.day ul::after {
+	content: "";
+	display: block;
+	
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 1em;
+	
+	background: linear-gradient(to bottom, transparent, #FFFFFF);
+}
+div.day li {
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+div.day.busy > a {
+	background-color: #C6D8EE;
+	border-bottom-color: #B2C2D6;
+}
+div.day.busy ul::after {
+	background: linear-gradient(to bottom, transparent, #C6D8EE);
+}
+
+a.navigation {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 10em;
+	
+	display: flex;
+	align-items: center;
+	
+	z-index: 2;
+}
+a.navigation.previous {
+	right: 100%;
+	justify-content: flex-start;
+}
+a.navigation.next {
+	left: 100%;
+	justify-content: flex-end;
+}
+a.navigation img {
+	max-width: 100%;
+	max-height: 100%;
+}
+a.navigation img.alternative,
+a.navigation img.alternative2 {
+	display: none;
+}
+
+ul.events {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+ul.events li {
+	display: flex;
+	padding: 1em;
+	
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+}
+ul.events li:not(:first-of-type) {
+	margin-top: 5px;
+}
+ul.events li > * {
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+ul.events h2 {
+	flex-basis: 3em;
+	flex-shrink: 0;
+}
+ul.events p {
+	margin: 0 0.5em;
+	flex-grow: 1;
+	
+	word-break: break-all;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+ul.events form.actions > *:not(:first-child) {
+	margin-left: 0.5em;
+}
+div.finalbuttons {
+	margin-top: 5px;
+}
+div.finalbuttons > *:first-child {
+	float: right;
+}
+
+main.inputs input,
+main.inputs input[type=text] {
+	font-size: 1.5em;
+}
+main.inputs div.inputholder {
+	background-color: #FFFFFF;
+	border-bottom: 5px solid #E5E5E5;
+	padding: 1em;
+}
+main.inputs h2 {
+	margin: 0.2em 0;
+}
+main.inputs h2:first-of-type {
+	margin-top: 0;
+}
+
+main.error {
+	background-color: transparent;
+	padding: 0;
+}
+main.error div.finalbuttons {
+	text-align: right;
+	padding: 0.5em;
+	background-color: #EFEFEF;
+}
+main.error div.finalbuttons > *:first-child {
+	float: none;
+}
+
+@media screen and (max-width: 1460px) and (max-aspect-ratio: 4/3) {
+	a.navigation {
+		position: fixed;
+		height: 4em;
+		width: auto;
+	}
+	a.navigation.previous {
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: unset;
+		justify-content: center;
+	}
+	a.navigation.next {
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: unset;
+		justify-content: center;
+	}
+	a.navigation img.default {
+		display: none;
+	}
+	a.navigation img.alternative {
+		display: inline-block;
+	}
+}
+@media screen and (max-width: 1460px) and (min-aspect-ratio: 4/3) {
+	a.navigation {
+		position: fixed;
+		bottom: 0.5em;
+		left: 0.5em;
+		right: unset;
+		top: unset;
+		
+		width: 4em;
+		height: 4em;
+		
+		background: #BFBFBF;
+		border-radius: 50%;
+	}
+	a.navigation.previous {
+		justify-content: center;
+	}
+	a.navigation.next {
+		left: 5em;
+		justify-content: center;
+	}
+	a.navigation img {
+		height: 50%;
+	}
+	a.navigation img.default {
+		display: none;
+	}
+	a.navigation img.alternative2 {
+		display: inline-block;
+	}
+}
+@media screen and (max-width: 1150px) {
+	main {
+		padding: 0.25em;
+	}
+	header, footer {
+		margin-left: 1em;
+		margin-right: 1em;
+	}
+	ul.events form.actions {
+		flex-direction: column;
+		justify-content: center;
+	}
+	ul.events button,
+	ul.events a.button {
+		width: 100%;
+	}
+	ul.events form.actions > *:not(:first-child) {
+		margin-left: 0;
+		margin-top: 0.5em;
+	}
+}
+@media screen and (max-width: 900px) {
+	div.day > a,
+	ul.events li,
+	button.large,
+	a.button.large,
+	main.inputs div.inputholder	{
+		border-bottom-width: 3px;
+	}
+}
+@media screen and (max-width: 600px) {
+	div.day > a {
+		align-items: center;
+	}
+	div.day ul {
+		display: none;
+	}
+}
+@media screen and (max-width: 500px) {
+	h1 {
+		font-size: 1.8em;
+	}
+}
+@media screen and (max-width: 350px) {
+	div.day h2 {
+		font-size: 1em;
+	}
+}

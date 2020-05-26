@@ -21,4 +21,8 @@ module.exports = {
 			template: path.resolve(__dirname, 'src/index.html'),
 		}),
 	],
+	devServer: {
+		contentBase: path.join(__dirname, 'assets'),
+		contentBasePublicPath: '/'
+	}
 }
