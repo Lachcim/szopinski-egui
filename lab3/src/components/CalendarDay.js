@@ -10,7 +10,7 @@ function CalendarDay(props) {
 	const listItems = events.map(event => (<li key={event.id}>{event.description}</li>));
 	
 	return (
-		<div className="day {events.length > 0 ? 'busy' : ''}">
+		<div className={events.length > 0 ? 'day busy' : 'day'}>
 			<a href="#">
 				<h2>{props.date}</h2>
 				<ul>
