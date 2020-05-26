@@ -33,6 +33,13 @@ namespace SzopinskiCalendar
                 endpoints.MapControllerRoute("event", "{year}-{month}-{day}/new", new { controller="Calendar", action="AddEvent" });
                 endpoints.MapControllerRoute("event", "edit/{id}", new { controller="Calendar", action="EditEvent" });
                 endpoints.MapControllerRoute("error", "error", new { controller="Calendar", action="ShowError" });
+                
+                endpoints.MapControllerRoute("apimonth", "api/month/{year}-{month}", new { controller="Api", action="GetMonth" });
+                endpoints.MapControllerRoute("apidate", "api/date/{year}-{month}-{day}", new { controller="Api", action="GetDay" });
+                endpoints.MapControllerRoute("apidate", "api/date/{year}-{month}-{day}", new { controller="Api", action="ManageEvent" });
+                endpoints.MapControllerRoute("apievent", "api/event/{id}", new { controller="Api", action="GetEvent" });
+                endpoints.MapControllerRoute("apievent", "api/event/{id}", new { controller="Api", action="ManageEvent" });
+                endpoints.MapControllerRoute("apierror", "api/error", new { controller="Api", action="ShowError" });
             });
         }
     }
