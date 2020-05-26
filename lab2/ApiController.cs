@@ -8,52 +8,98 @@ using SzopinskiCalendar.Models;
 namespace SzopinskiCalendar.Controllers {
     public class ApiController : Controller
     {
-        public string GetMonth(int year, int month)
-        {
-            return "month view";
+        public ActionResult GetMonth(int year, int month)
+        {            
+            var data = new {
+                status="ok",
+                year=year,
+                month=month,
+                days=new List<dynamic>()
+            };
+            
+            data.days.Add(null);
+            
+            Dictionary<int, List<EventViewModel>> eventDictionary;
+            try { eventDictionary = DataHandler.GetEventDictionary(year, month); }
+            catch (Exception e) { return ShowError(e); }
+            
+            for (int i = 1; i <= eventDictionary.Count; i++) {
+                List<dynamic> dayList = new List<dynamic>();
+                
+                foreach (EventViewModel ev in eventDictionary[i])
+                    dayList.Add(new {
+                        id=ev.Id,
+                        description=ev.Description
+                    });
+            
+                data.days.Add(dayList);
+            }
+            
+            return Json(data);
         }
         
         [HttpGet]
         [Route("api/date/{year:int}-{month:int}-{day:int}")]
-        public string GetDate(int year, int month, int day)
+        public ActionResult GetDate(int year, int month, int day)
         {
-            return "date view";
+            var data = new {
+                status="ok",
+                year=year,
+                month=month,
+                day=day,
+                events=new List<dynamic>()
+            };
+            
+            List<EventViewModel> eventList;
+            try { eventList = DataHandler.GetEvents(new DateTime(year, month, day)); }
+            catch (Exception e) { return ShowError(e); }
+            
+            foreach (EventViewModel ev in eventList)
+                data.events.Add(new {
+                    id=ev.Id,
+                    time=((DateTimeOffset)ev.Time).ToUnixTimeSeconds() * 1000,
+                    description=ev.Description
+                });
+            
+            return Json(data);
         }
         
         [HttpGet]
-        public string GetEvent(int id) {
-            return "event view";
+        public ActionResult GetEvent(int id) {
+            EventViewModel ev;
+            try { ev = DataHandler.GetEvent(id); }
+            catch (Exception e) { return ShowError(e); }
+            
+            var data = new {
+                status="ok",
+                id=ev.Id,
+                time=((DateTimeOffset)ev.Time).ToUnixTimeSeconds() * 1000,
+                description=ev.Description
+            };
+            
+            return Json(data);
         }
         
         [HttpPost]
         [Route("api/date/{year:int}-{month:int}-{day:int}")]
-        public string ManageEvent(int year, int month, int day) {
-            return "creating event";
+        public ActionResult ManageEvent(int year, int month, int day) {
+            return Json(new {});
         }
         
         [HttpPost]
-        public string ManageEvent(int id) {
-            return "editing event";
+        public ActionResult ManageEvent(int id) {
+            return Json(new {});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public string ShowError()
+        public ActionResult ShowError(Exception exception)
         {
-            IExceptionHandlerFeature context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            
-            if (context == null)
-                return "";
-
-            HttpContext.Response.StatusCode = context.Error is ArgumentException ? 400 : 500;
+            HttpContext.Response.StatusCode = exception is ArgumentException ? 400 : 500;
             string status = HttpContext.Response.StatusCode == 400 ? "client error" : "server error";
-            string errorType =  context.Error.GetType().Name;
-            string errorMessage = context.Error.Message;
+            string errorType =  exception.GetType().Name;
+            string errorMessage = exception.Message;
 
-            return "error";
-        }
-
-        private string Pad(int input) {
-            return input.ToString().PadLeft(2, '0');
+            return Json(new {status=status, error_type=errorType, error_message=errorMessage});
         }
     }
 }
