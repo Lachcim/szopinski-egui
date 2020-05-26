@@ -10,7 +10,7 @@ class Month {
 		else {		
 			//validate input
 			if (!Number.isInteger(year) || !Number.isInteger(month) || !(month >= 1 && month <= 12))
-				throw new RangeError("Invalid year or month.");
+				throw new RangeError('Invalid year or month.');
 			
 			this.year = year;
 			this.month = month;
