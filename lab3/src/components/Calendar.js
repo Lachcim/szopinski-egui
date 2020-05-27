@@ -9,8 +9,8 @@ class Calendar extends React.Component {
 		super(props);
 		
 		this.state = {
-			fetching: false,
-			onDayPick: props.onDayPick
+			onDayPick: props.onDayPick,
+			fetching: false
 		};
 		
 		//if no year and month specified, display current month
@@ -26,37 +26,46 @@ class Calendar extends React.Component {
 	}
 	
 	componentDidMount() {
+		//fetch data for the current month
 		this.fetchData();
 	}
 	
 	showPrevMonth(e) {
 		if (e) e.preventDefault();
 		
+		//decrement displayed month, fetch data for it
 		this.setState(state => ({ month: state.month.getPrev() }), this.fetchData);
 	}
 	showNextMonth(e) {
 		if (e) e.preventDefault();
 		
+		//increment displayed month, fetch data for it
 		this.setState(state => ({ month: state.month.getNext() }), this.fetchData);
 	}
 	fetchData() {
+		//display loader
 		this.setState({ fetching: true });
 		
+		//make API call
 		fetch('/api/month/' + this.state.month.year + '-' + this.state.month.month)
 			.then(response => response.json())
 			.then(data => {
+				//obtain month data from API
 				this.setState({ month: Month.fromJSON(data) });
 			})
 			.catch(error => {
+				//display error message
 				alert('Error loading calendar data!');
 				console.error(error);
 			})
 			.finally(() => {
+				//hide loader
 				this.setState({ fetching: false });
 			});
 	}
 	
 	handleDayPick(date) {
+		//fire onDayPick event for the parent component to display the day editor
 		if (!this.state.onDayPick) return;
 		
 		const fullDate = new Date(this.state.month.year, this.state.month.month - 1, date);

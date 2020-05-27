@@ -5,6 +5,8 @@ class Event {
 			if (!Number.isInteger(id) || id < 0)
 				throw new RangeError('Invalid id.');
 		}
+		else
+			throw new RangeError('No id specified.');
 		
 		this.id = id;
 		this.date = date;

@@ -7,6 +7,7 @@ class SzopinskiCalendar extends React.Component {
 	constructor(props) {
 		super(props);
 		
+		//maintain main active component, switch betwen three
 		this.state = {
 			activeComponent: null
 		};
@@ -17,26 +18,31 @@ class SzopinskiCalendar extends React.Component {
 	}
 	
 	componentDidMount() {
+		//show calendar by default
 		this.showCalendar();
 	}
 	
 	showCalendar(year, month) {
+		//when a day is picked, show day editor
 		this.setState({
 			activeComponent: (<Calendar year={year} month={month} onDayPick={this.showDayEditor}/>)
 		});
 	}
 	showDayEditor(day) {
+		//when the day editor closes, show calendar; when an event is edited, show event editor
 		this.setState({
 			activeComponent: (<DayEditor day={day} onClose={this.showCalendar} onEditEvent={this.showEventEditor}/>)
 		});
 	}
 	showEventEditor(id, day) {
+		//when the event editor closes, show day editor
 		this.setState({
 			activeComponent: (<EventEditor id={id} day={day} onClose={this.showDayEditor}/>)
 		});
 	}
 	
 	render() {
+		//render the current main component
 		return this.state.activeComponent;
 	}
 }

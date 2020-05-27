@@ -33,6 +33,7 @@ class Month {
 	static fromJSON(json) {
 		let output = new Month(json.year, json.month);
 		
+		//parse day dictionary
 		for (let i = 1; i < json.days.length; i++)
 			for (let j = 0; j < json.days[i].length; j++) {
 				const id = json.days[i][j].id;
@@ -73,6 +74,7 @@ class Month {
 	}
 	
 	getPrev() {
+		//decrease month, handle overflow
 		let month = this.month - 1;
 		let year = this.year;
 		
@@ -84,6 +86,7 @@ class Month {
 		return new Month(year, month);
 	}
 	getNext() {
+		//increase month, handle overflow
 		let month = this.month + 1;
 		let year = this.year;
 		

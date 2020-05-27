@@ -9,6 +9,7 @@ function CalendarDay(props) {
 	const events = props.month.days[props.date];
 	const listItems = events.map(event => (<li key={event.id}>{event.description}</li>));
 	
+	//fire onPick event for the parent component to pass upwards
 	function handleClick(e) {
 		e.preventDefault();
 		props.onPick(props.date);
