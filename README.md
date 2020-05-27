@@ -23,5 +23,14 @@ cd szopinski-egui/lab2
 dotnet build
 dotnet run
 ```
-
 Kestrel will be listening to all hostnames on port 5000.
+
+### Lab 3: React
+
+```bash
+git clone https://github.com/Lachcim/szopinski-egui
+cd szopinski-egui/lab3
+npm install
+npm start
+```
+Running the React app requires launching **both** Webpack Development Server **and** Kestrel from lab 2 (as an API endpoint). WDS will be listening on port 8080.
