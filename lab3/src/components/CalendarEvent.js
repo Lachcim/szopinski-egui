@@ -24,17 +24,15 @@ class CalendarEvent extends React.Component {
 		if (e) e.preventDefault();
 		this.setState({ fetching: true });
 		
-		fetch('api/edit/' + this.state.data.id, {method: 'delete'})
+		fetch('api/event/' + this.state.data.id, {method: 'delete'})
 			.then(response => response.json())
 			.then(() => {
 				if (this.state.onRemove) this.state.onRemove(this.state.data.id);
 			})
 			.catch(error => {
+				this.setState({ fetching: false });
 				alert('Error deleting event!');
 				console.error(error);
-			})
-			.finally(() => {
-				this.setState({ fetching: false });
 			});
 	}
 	

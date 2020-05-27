@@ -81,7 +81,7 @@ namespace SzopinskiCalendar.Controllers {
         }
         
         [HttpDelete]
-        [Route("api/edit/{id:int}")]
+        [Route("api/event/{id:int}")]
         public ActionResult DeleteEvent(int id) {
             try { DataHandler.DeleteEvent(id); }
             catch (Exception e) { return ShowError(e); }
@@ -99,7 +99,7 @@ namespace SzopinskiCalendar.Controllers {
                 minute = Convert.ToInt32(time.Substring(3, 2));
             }
             catch (Exception) {
-                throw new ArgumentException("Invalid time.");
+                return ShowError(new ArgumentException("Invalid time."));
             }
             
             EventViewModel newEvent = new EventViewModel(year, month, day, hour, minute);
@@ -116,7 +116,7 @@ namespace SzopinskiCalendar.Controllers {
         }
         
         [HttpPost]
-        [Route("api/edit/{id:int}")]
+        [Route("api/event/{id:int}")]
         public ActionResult ManageEvent(int id, string time, string description) {
             int hour, minute;
             
@@ -125,7 +125,7 @@ namespace SzopinskiCalendar.Controllers {
                 minute = Convert.ToInt32(time.Substring(3, 2));
             }
             catch (Exception) {
-                throw new ArgumentException("Invalid time.");
+                return ShowError(new ArgumentException("Invalid time."));
             }
             
             try { DataHandler.UpdateEvent(id, hour, minute, description ?? ""); }

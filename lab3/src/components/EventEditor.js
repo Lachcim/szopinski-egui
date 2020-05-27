@@ -30,9 +30,34 @@ class EventEditor extends React.Component {
 	apply(e) {
 		if (e) e.preventDefault();
 		
-		// TODO: commit changes
+		let url = '/api/event/' + this.state.eventId;
+		if (this.state.addingMode) {
+			url = 'api/date/' +
+				this.state.defaultDay.getFullYear() +
+				'-' +
+				(this.state.defaultDay.getMonth() + 1) +
+				'-' +
+				this.state.defaultDay.getDate();
+		}
 		
-		if (this.state.onClose) this.state.onClose(this.state.defaultDay);
+		this.setState({ fetching: true });
+		
+		fetch(url, {
+			method: 'post',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+			body: "id=" + this.state.eventId +
+				"&time=" + this.timeInput.current.value +
+				"&description=" + encodeURIComponent(this.descriptionInput.current.value)
+			})
+			.then(response => response.json())
+			.then((x) => {
+				this.discard();
+			})
+			.catch(error => {
+				this.setState({ fetching: false });
+				alert('Error saving event data!');
+				console.error(error);
+			});
 	}
 	discard(e) {
 		if (e) e.preventDefault();
