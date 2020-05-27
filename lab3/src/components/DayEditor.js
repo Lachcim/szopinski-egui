@@ -56,13 +56,8 @@ class DayEditor extends React.Component {
 			.then(data => {
 				const dayEvents = [];
 				
-				for (let i = 0; i < data.events.length; i++) {
-					const id = data.events[i].id;
-					const date = new Date(data.events[i].time);
-					const desc = data.events[i].description;
-					
-					dayEvents.push(new Event(id, date, desc));
-				}
+				for (let i = 0; i < data.events.length; i++)
+					dayEvents.push(Event.fromJSON(data.events[i]));
 				
 				this.setState({ dayEvents });
 			})

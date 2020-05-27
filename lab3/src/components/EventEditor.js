@@ -1,5 +1,6 @@
 import React from 'react';
 import MainWrapper from './MainWrapper';
+import Loader from './Loader';
 import Event from '../datatypes/Event';
 
 class EventEditor extends React.Component {
@@ -11,7 +12,8 @@ class EventEditor extends React.Component {
 			eventId: props.id,
 			event: null,
 			defaultDay: props.day,
-			onClose: props.onClose
+			onClose: props.onClose,
+			fetching: false
 		};
 		
 		this.timeInput = React.createRef();
@@ -19,6 +21,10 @@ class EventEditor extends React.Component {
 		
 		this.apply = this.apply.bind(this);
 		this.discard = this.discard.bind(this);
+	}
+	
+	componentDidMount() {
+		if (!this.state.addingMode) this.fetchData();
 	}
 	
 	apply(e) {
@@ -32,20 +38,40 @@ class EventEditor extends React.Component {
 		if (e) e.preventDefault();
 		if (this.state.onClose) this.state.onClose(this.state.defaultDay);
 	}
+	fetchData() {
+		this.setState({ fetching: true });
+		
+		fetch('/api/event/' + this.state.eventId)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({ event: Event.fromJSON(data) });
+			})
+			.catch(error => {
+				alert('Error loading event data!');
+				console.error(error);
+			})
+			.finally(() => {
+				this.setState({ fetching: false });
+			});
+	}
 	
 	render() {
 		let defaultDesc = '';
-		let defaultTime = '12:00';
+		let defaultTime = '';
 		
 		if (this.state.event) {
 			defaultDesc = this.state.event.description;
 			defaultTime = ('0' + this.state.event.date.getHours()).substr(-2) + 
 				':' +
-				('0' + this.state.event.date.getMinutes());
+				('0' + this.state.event.date.getMinutes()).substr(-2);
+		}
+		else if (this.state.addingMode) {
+			defaultTime = '12:00';
 		}
 		
 		return (
 			<MainWrapper compact>
+				{this.state.fetching && <Loader/>}
 				<header>
 					<h1>{this.state.addingMode ? 'Add event' : 'Edit event'}</h1>
 				</header>

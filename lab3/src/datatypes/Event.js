@@ -13,6 +13,14 @@ class Event {
 		Object.defineProperty(this, 'id', { writable: false });
 	}
 	
+	static fromJSON(json) {
+		const id = json.id;
+		const date = new Date(json.time);
+		const desc = json.description;
+		
+		return new Event(id, date, desc);
+	}
+	
 	get date() {
 		return this._date;
 	}
