@@ -45,12 +45,14 @@ class Calendar extends React.Component {
 		fetch('/api/month/' + this.state.month.year + '-' + this.state.month.month)
 			.then(response => response.json())
 			.then(data => {
-				this.setState({ month: Month.fromJSON(data), fetching: false });
+				this.setState({ month: Month.fromJSON(data) });
 			})
 			.catch(error => {
-				this.setState({ fetching: false });
-				alert("Error loading calendar data!");
+				alert('Error loading calendar data!');
 				console.error(error);
+			})
+			.finally(() => {
+				this.setState({ fetching: false });
 			});
 	}
 	

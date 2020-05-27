@@ -56,14 +56,16 @@ class DayEditor extends React.Component {
 					const desc = data.events[i].description;
 					
 					dayEvents.push(new Event(id, date, desc));
+					
+					this.setState({ dayEvents });
 				}
-				
-				this.setState({ dayEvents, fetching: false });
 			})
 			.catch(error => {
-				this.setState({ fetching: false });
-				alert("Error loading day data!");
+				alert('Error loading day data!');
 				console.error(error);
+			})
+			.finally(() => {
+				this.setState({ fetching: false });
 			});
 	}
 	
@@ -73,7 +75,9 @@ class DayEditor extends React.Component {
 			('0' + (this.state.day.getMonth() + 1)).substr(-2) +
 			'-' +
 			('0' + this.state.day.getDate()).substr(-2);
-		const eventItems = this.state.dayEvents.map(ev => (<CalendarEvent data={ev} key={ev.id}/>));
+		const eventItems = this.state.dayEvents.map(ev => (
+			<CalendarEvent data={ev} key={ev.id} onEdit={this.editEvent}/>
+		));
 		
 		return (
 			<MainWrapper compact>
