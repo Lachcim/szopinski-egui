@@ -26,6 +26,7 @@ module.exports = {
 		contentBasePublicPath: '/',
 		proxy: {
 			'/api': 'http://localhost:5000'
-		}
+		},
+		disableHostCheck: true
 	}
 }
