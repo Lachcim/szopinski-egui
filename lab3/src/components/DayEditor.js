@@ -1,6 +1,7 @@
 import React from 'react';
 import MainWrapper from './MainWrapper';
 import CalendarEvent from './CalendarEvent';
+import Loader from './Loader';
 import Event from '../datatypes/Event';
 
 class DayEditor extends React.Component {
@@ -11,7 +12,8 @@ class DayEditor extends React.Component {
 			day: props.day,
 			dayEvents: [],
 			onClose: props.onClose,
-			onEditEvent: props.onEditEvent
+			onEditEvent: props.onEditEvent,
+			fetching: false
 		};
 		
 		this.close = this.close.bind(this);
@@ -41,6 +43,8 @@ class DayEditor extends React.Component {
 		const month = this.state.day.getMonth() + 1;
 		const date = this.state.day.getDate();
 		
+		this.setState({ fetching: true });
+		
 		fetch('/api/date/' + year + '-' + month + '-' + date)
 			.then(response => response.json())
 			.then(data => {
@@ -54,9 +58,10 @@ class DayEditor extends React.Component {
 					dayEvents.push(new Event(id, date, desc));
 				}
 				
-				this.setState({ dayEvents });
+				this.setState({ dayEvents, fetching: false });
 			})
 			.catch(error => {
+				this.setState({ fetching: false });
 				alert("Error loading day data!");
 				console.error(error);
 			});
@@ -72,6 +77,7 @@ class DayEditor extends React.Component {
 		
 		return (
 			<MainWrapper compact>
+				{this.state.fetching && <Loader/>}
 				<header>
 					<h1>{displayDate}</h1>
 				</header>
