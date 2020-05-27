@@ -8,6 +8,7 @@ class CalendarEvent extends React.Component {
 		this.state = {
 			data: props.data,
 			onEdit: props.onEdit,
+			onRemove: props.onRemove,
 			fetching: false
 		};
 		
@@ -25,6 +26,9 @@ class CalendarEvent extends React.Component {
 		
 		fetch('api/edit/' + this.state.data.id, {method: 'delete'})
 			.then(response => response.json())
+			.then(() => {
+				if (this.state.onRemove) this.state.onRemove(this.state.data.id);
+			})
 			.catch(error => {
 				alert('Error deleting event!');
 				console.error(error);

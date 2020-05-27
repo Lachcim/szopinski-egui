@@ -19,6 +19,7 @@ class DayEditor extends React.Component {
 		this.close = this.close.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.editEvent = this.editEvent.bind(this);
+		this.eraseEvent = this.eraseEvent.bind(this);
 	}
 	
 	componentDidMount() {
@@ -38,6 +39,11 @@ class DayEditor extends React.Component {
 	editEvent(id) {
 		if (this.state.onEditEvent) this.state.onEditEvent(id, this.state.day);
 	}
+	eraseEvent(id) {
+		this.setState(state => ({
+			dayEvents: this.state.dayEvents.filter(ev => ev.id != id)
+		}));
+	}
 	fetchData() {
 		const year = this.state.day.getFullYear();
 		const month = this.state.day.getMonth() + 1;
@@ -56,9 +62,9 @@ class DayEditor extends React.Component {
 					const desc = data.events[i].description;
 					
 					dayEvents.push(new Event(id, date, desc));
-					
-					this.setState({ dayEvents });
 				}
+				
+				this.setState({ dayEvents });
 			})
 			.catch(error => {
 				alert('Error loading day data!');
@@ -76,7 +82,7 @@ class DayEditor extends React.Component {
 			'-' +
 			('0' + this.state.day.getDate()).substr(-2);
 		const eventItems = this.state.dayEvents.map(ev => (
-			<CalendarEvent data={ev} key={ev.id} onEdit={this.editEvent}/>
+			<CalendarEvent data={ev} key={ev.id} onEdit={this.editEvent} onRemove={this.eraseEvent}/>
 		));
 		
 		return (

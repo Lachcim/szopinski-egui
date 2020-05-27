@@ -80,6 +80,15 @@ namespace SzopinskiCalendar.Controllers {
             return Json(data);
         }
         
+        [HttpDelete]
+        [Route("api/edit/{id:int}")]
+        public ActionResult DeleteEvent(int id) {
+            try { DataHandler.DeleteEvent(id); }
+            catch (Exception e) { return ShowError(e); }
+            
+            return Json(new {status="ok"});
+        }
+        
         [HttpPost]
         [Route("api/date/{year:int}-{month:int}-{day:int}")]
         public ActionResult ManageEvent(string time, string description, int year, int month, int day) {
@@ -107,6 +116,7 @@ namespace SzopinskiCalendar.Controllers {
         }
         
         [HttpPost]
+        [Route("api/edit/{id:int}")]
         public ActionResult ManageEvent(int id, string time, string description) {
             int hour, minute;
             
