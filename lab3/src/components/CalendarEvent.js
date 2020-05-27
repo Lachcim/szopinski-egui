@@ -11,7 +11,7 @@ class CalendarEvent extends React.Component {
 	
 	render() {
 		const displayTime = ("0" + this.state.data.date.getHours()).substr(-2) +
-			'-' +
+			':' +
 			("0" + this.state.data.date.getMinutes()).substr(-2);
 		
 		return (
