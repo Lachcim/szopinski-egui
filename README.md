@@ -1,4 +1,5 @@
 # szopinski-egui
+<img src="https://mssnt.pl/misc/github/calendar.png">
 My implementation of the EGUI project for Mr Myrcha, peace be upon Him.
 
 ## The task
